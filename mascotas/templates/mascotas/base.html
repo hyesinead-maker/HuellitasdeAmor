@@ -1,0 +1,455 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="HuellistasdeAmor: adopta, cuida y transforma la vida de una mascota que necesita un hogar.">
+
+    <meta name="theme-color" content="#087f69">
+
+    <title>
+        {% block title %}HuellistasdeAmor{% endblock %}
+    </title>
+
+    <link rel="stylesheet"
+          href="{% static 'mascotas/css/estilos.css' %}">
+
+</head>
+
+<body class="sitio-huellistas">
+
+    <!-- ==========================================
+         ENCABEZADO PRINCIPAL
+    =========================================== -->
+
+    <header class="encabezado">
+
+        <nav class="navegacion"
+             aria-label="Navegación principal">
+
+            <!-- LOGOTIPO -->
+
+            <a href="{% url 'inicio' %}"
+               class="logo"
+               aria-label="HuellistasdeAmor - Inicio">
+
+                <span class="logo-huella"
+                      aria-hidden="true">
+                    🐾
+                </span>
+
+                <span class="logo-texto">
+                    <strong>Huellistas</strong>
+                    <strong>deAmor</strong>
+                </span>
+
+            </a>
+
+
+            <!-- ==========================================
+                 ENLACES PRINCIPALES
+            =========================================== -->
+
+            <div class="menu" id="menu-principal">
+
+                <!-- INICIO -->
+
+                <a href="{% url 'inicio' %}"
+                   class="menu-enlace {% if request.resolver_match.url_name == 'inicio' %}activo{% endif %}">
+                    Inicio
+                </a>
+
+
+                <!-- MASCOTAS -->
+
+                <a href="{% url 'catalogo' %}"
+                   class="menu-enlace {% if request.resolver_match.url_name == 'catalogo' or request.resolver_match.url_name == 'detalle_mascota' %}activo{% endif %}">
+                    Mascotas
+                </a>
+
+
+                <!-- ADOPCIONES -->
+
+                <a href="{% url 'adopciones' %}"
+                   class="menu-enlace {% if request.resolver_match.url_name == 'adopciones' %}activo{% endif %}">
+                    Adopciones
+                </a>
+
+
+                <!-- NOSOTROS -->
+
+                <a href="{% url 'nosotros' %}"
+                   class="menu-enlace {% if request.resolver_match.url_name == 'nosotros' %}activo{% endif %}">
+                    Nosotros
+                </a>
+
+
+                <!-- RESEÑAS -->
+
+                <a href="{% url 'inicio' %}#resenas"
+                   class="menu-enlace">
+                    Reseñas
+                </a>
+
+            </div>
+
+
+            <!-- ==========================================
+                 ZONA DE USUARIO
+            =========================================== -->
+
+            <div class="navegacion-usuario">
+
+                {% if user.is_authenticated %}
+
+                    <!-- MENÚ DESPLEGABLE -->
+
+                    <details class="menu-usuario">
+
+                        <summary class="usuario-boton">
+
+                            <span class="usuario-avatar"
+                                  aria-hidden="true">
+                                👤
+                            </span>
+
+                            <span class="usuario-nombre">
+
+                                {% if user.is_staff or user.is_superuser %}
+                                    Administrador
+                                {% else %}
+                                    Mi perfil
+                                {% endif %}
+
+                            </span>
+
+                            <span class="usuario-flecha"
+                                  aria-hidden="true">
+                                ▾
+                            </span>
+
+                        </summary>
+
+
+                        <div class="usuario-desplegable">
+
+                            <!-- INFORMACIÓN DEL USUARIO -->
+
+                            <div class="usuario-info">
+
+                                <strong>
+                                    {{ user.first_name|default:user.username }}
+                                </strong>
+
+                                <small>
+                                    {{ user.email|default:"Cuenta registrada" }}
+                                </small>
+
+                            </div>
+
+
+                            {% if user.is_superuser %}
+
+                                <!-- SUPERUSUARIO -->
+
+                                <a href="{% url 'panel_administrador' %}"
+                                   class="enlace-admin">
+                                    🐾 Panel administrativo
+                                </a>
+
+                                <a href="{% url 'agregar_mascota' %}">
+                                    🐶 Agregar mascota
+                                </a>
+
+                                <a href="{% url 'catalogo' %}">
+                                    🐾 Ver mascotas
+                                </a>
+
+                                <!-- NUEVO: BANDEJA DE MENSAJES -->
+
+                                <a href="{% url 'bandeja_mensajes' %}">
+                                    📩 Bandeja de mensajes
+                                </a>
+
+
+                            {% elif user.is_staff %}
+
+                                <!-- PERSONAL ADMINISTRATIVO -->
+
+                                <a href="{% url 'admin:index' %}"
+                                   class="enlace-admin">
+                                    ⚙️ Administración
+                                </a>
+
+                                <a href="{% url 'catalogo' %}">
+                                    🐾 Ver mascotas
+                                </a>
+
+
+                            {% else %}
+
+                                <!-- USUARIO NORMAL -->
+
+                                <a href="{% url 'perfil' %}"
+                                   class="enlace-perfil">
+                                    👤 Mi perfil
+                                </a>
+
+                                <a href="{% url 'perfil' %}">
+                                    📋 Mis solicitudes
+                                </a>
+
+                                <a href="{% url 'perfil' %}">
+                                    ⭐ Mis reseñas
+                                </a>
+
+                                <!-- NUEVO: CHAT CON ADMINISTRACIÓN -->
+
+                                <a href="{% url 'chat_usuario' %}">
+                                    💬 Mis mensajes
+                                </a>
+
+                            {% endif %}
+
+
+                            <!-- CERRAR SESIÓN -->
+
+                            <form method="POST"
+                                  action="{% url 'logout' %}"
+                                  class="formulario-logout">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="btn-salir">
+                                    ↪ Cerrar sesión
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </details>
+
+                {% else %}
+
+                    <!-- VISITANTES -->
+
+                    <a href="{% url 'login' %}"
+                       class="enlace-iniciar-sesion">
+                        Iniciar sesión
+                    </a>
+
+                    <a href="{% url 'registro' %}"
+                       class="btn-registro">
+                        Registrarse
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+    =========================================== -->
+
+    <main class="contenido"
+          id="contenido-principal">
+
+        <!-- MENSAJES DE DJANGO -->
+
+        {% if messages %}
+
+            <div class="contenedor-mensajes"
+                 aria-live="polite">
+
+                {% for message in messages %}
+
+                    <div class="mensaje {{ message.tags }}"
+                         role="status">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- CONTENIDO DE CADA PÁGINA -->
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- ==========================================
+         PIE DE PÁGINA
+    =========================================== -->
+
+    <footer class="pie">
+
+        <div class="pie-contenedor">
+
+            <!-- MARCA -->
+
+            <div class="pie-marca">
+
+                <a href="{% url 'inicio' %}"
+                   class="pie-logo">
+
+                    <span aria-hidden="true">🐾</span>
+
+                    <span>
+                        Huellistas<br>
+                        deAmor
+                    </span>
+
+                </a>
+
+                <p>
+                    Dales una segunda oportunidad.
+                    Cada huellita merece un hogar
+                    lleno de amor.
+                </p>
+
+            </div>
+
+
+            <!-- ==========================================
+                 ENLACES DEL PIE DE PÁGINA
+            =========================================== -->
+
+            <div class="pie-columna">
+
+                <h3>Enlaces</h3>
+
+                <a href="{% url 'inicio' %}">
+                    Inicio
+                </a>
+
+                <a href="{% url 'catalogo' %}">
+                    Mascotas
+                </a>
+
+                <a href="{% url 'adopciones' %}">
+                    Adopciones
+                </a>
+
+                <a href="{% url 'nosotros' %}">
+                    Nosotros
+                </a>
+
+                <a href="{% url 'inicio' %}#resenas">
+                    Reseñas
+                </a>
+
+                <!-- NUEVO: CONTACTO POR MENSAJES -->
+
+                {% if user.is_authenticated %}
+
+                    {% if user.is_superuser %}
+
+                        <a href="{% url 'bandeja_mensajes' %}">
+                            📩 Mensajes
+                        </a>
+
+                    {% elif not user.is_staff %}
+
+                        <a href="{% url 'chat_usuario' %}">
+                            💬 Contáctanos
+                        </a>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+                        💬 Contáctanos
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+
+            <div class="pie-columna">
+
+                <h3>Sobre nosotros</h3>
+
+                <p>
+                    Promovemos la adopción responsable
+                    y el bienestar animal.
+                </p>
+
+                <p>
+                    💚 Un hogar para cada huellita.
+                </p>
+
+            </div>
+
+
+            <!-- COMUNIDAD -->
+
+            <div class="pie-columna">
+
+                <h3>Nuestra comunidad</h3>
+
+                <p>
+                    🐾 Adopta
+                </p>
+
+                <p>
+                    ❤️ Cuida
+                </p>
+
+                <p>
+                    💚 Comparte
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- DERECHOS -->
+
+        <div class="pie-inferior">
+
+            <p>
+                © {% now "Y" %} HuellistasdeAmor.
+                Todos los derechos reservados.
+            </p>
+
+            <p>
+                Hecho con ❤️ por amor a los animales.
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
+
+

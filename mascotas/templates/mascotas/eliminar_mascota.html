@@ -1,0 +1,242 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Eliminar {{ mascota.nombre }} | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .eliminar-contenedor {
+        max-width: 650px;
+        margin: 50px auto 80px;
+        padding: 0 20px;
+    }
+
+    .eliminar-tarjeta {
+        background: white;
+        border: 1px solid #f1d5d5;
+        border-radius: 20px;
+        padding: 35px;
+        text-align: center;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .eliminar-icono {
+        width: 75px;
+        height: 75px;
+        background: #fee2e2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 35px;
+    }
+
+    .eliminar-tarjeta h1 {
+        color: #991b1b;
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .eliminar-subtitulo {
+        color: #64748b;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .eliminar-foto {
+        width: 160px;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 16px;
+        margin-bottom: 15px;
+    }
+
+    .eliminar-foto-vacia {
+        width: 160px;
+        height: 160px;
+        background: #e9f8f3;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        font-size: 60px;
+    }
+
+    .eliminar-nombre {
+        font-size: 24px;
+        color: #155d50;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .eliminar-datos {
+        color: #64748b;
+        margin-bottom: 25px;
+    }
+
+    .eliminar-advertencia {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        color: #9a3412;
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 28px;
+        text-align: left;
+        line-height: 1.6;
+    }
+
+    .eliminar-botones {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .eliminar-confirmar {
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 11px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .eliminar-confirmar:hover {
+        background: #b91c1c;
+    }
+
+    .eliminar-cancelar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #e2e8f0;
+        color: #334155;
+        text-decoration: none;
+        padding: 14px 24px;
+        border-radius: 11px;
+        font-weight: 700;
+    }
+
+    .eliminar-cancelar:hover {
+        background: #cbd5e1;
+    }
+
+    @media (max-width: 600px) {
+        .eliminar-tarjeta {
+            padding: 24px 18px;
+        }
+
+        .eliminar-botones {
+            flex-direction: column;
+        }
+
+        .eliminar-confirmar,
+        .eliminar-cancelar {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<div class="eliminar-contenedor">
+
+    <div class="eliminar-tarjeta">
+
+        <!-- ICONO DE ADVERTENCIA -->
+
+        <div class="eliminar-icono">
+            ⚠️
+        </div>
+
+        <h1>Eliminar mascota</h1>
+
+        <p class="eliminar-subtitulo">
+            Estás a punto de eliminar permanentemente
+            una mascota de HuellistasdeAmor.
+        </p>
+
+
+        <!-- INFORMACIÓN DE LA MASCOTA -->
+
+        {% if mascota.foto %}
+
+            <img
+                src="{{ mascota.foto.url }}"
+                alt="Fotografía de {{ mascota.nombre }}"
+                class="eliminar-foto">
+
+        {% else %}
+
+            <div class="eliminar-foto-vacia">
+                🐾
+            </div>
+
+        {% endif %}
+
+        <div class="eliminar-nombre">
+            {{ mascota.nombre }}
+        </div>
+
+        <p class="eliminar-datos">
+            {{ mascota.especie }} ·
+            {{ mascota.raza|default:"Sin raza especificada" }}
+        </p>
+
+
+        <!-- ADVERTENCIA -->
+
+        <div class="eliminar-advertencia">
+
+            <strong>⚠️ Atención:</strong>
+
+            Esta acción es permanente y no se puede deshacer.
+
+            La mascota se eliminará de la base de datos
+            y dejará de aparecer en el catálogo.
+
+            Solo se permite eliminar mascotas
+            que no tengan solicitudes de adopción
+            registradas.
+
+        </div>
+
+
+        <!-- CONFIRMACIÓN -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="eliminar-botones">
+
+                <button type="submit"
+                        class="eliminar-confirmar">
+
+                    🗑️ Sí, eliminar mascota
+
+                </button>
+
+                <a href="{% url 'gestionar_mascotas' %}"
+                   class="eliminar-cancelar">
+
+                    Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

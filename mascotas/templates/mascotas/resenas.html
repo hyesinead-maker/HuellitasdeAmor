@@ -1,0 +1,308 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Reseñas | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .resenas-contenedor {
+        max-width: 1150px;
+        margin: 40px auto 80px;
+        padding: 0 20px;
+    }
+
+    .resenas-encabezado {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .resenas-encabezado h1 {
+        color: #087f69;
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .resenas-encabezado p {
+        color: #64748b;
+        line-height: 1.7;
+    }
+
+    .resenas-acciones {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+    .resenas-boton {
+        display: inline-block;
+        background: #087f69;
+        color: white;
+        padding: 13px 22px;
+        border-radius: 11px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .resenas-boton:hover {
+        background: #066551;
+        color: white;
+    }
+
+    .resenas-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .resena-card {
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 18px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+    }
+
+    .resena-usuario {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        margin-bottom: 18px;
+    }
+
+    .resena-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #e0f5ed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 23px;
+    }
+
+    .resena-usuario strong {
+        color: #155d50;
+    }
+
+    .resena-fecha {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .resena-estrellas {
+        color: #d97706;
+        font-weight: 700;
+        margin-bottom: 13px;
+    }
+
+    .resena-card h3 {
+        color: #155d50;
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .resena-comentario {
+        color: #475569;
+        line-height: 1.8;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+    }
+
+    .resena-botones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .resena-editar,
+    .resena-eliminar {
+        display: inline-block;
+        padding: 10px 14px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .resena-editar {
+        background: #e0f2fe;
+        color: #075985;
+    }
+
+    .resena-eliminar {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .resena-editar:hover {
+        background: #bae6fd;
+    }
+
+    .resena-eliminar:hover {
+        background: #fecaca;
+    }
+
+    .resenas-vacio {
+        grid-column: 1 / -1;
+        background: #f0faf6;
+        border-radius: 18px;
+        padding: 45px;
+        text-align: center;
+    }
+
+    .resenas-vacio h3 {
+        color: #087f69;
+    }
+
+    .resenas-vacio p {
+        color: #64748b;
+    }
+
+    @media (max-width: 750px) {
+        .resenas-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .resenas-encabezado h1 {
+            font-size: 26px;
+        }
+    }
+</style>
+
+
+<div class="resenas-contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="resenas-encabezado">
+
+        <h1>⭐ Reseñas de nuestra comunidad</h1>
+
+        <p>
+            Conoce las experiencias y opiniones de las personas
+            que forman parte de HuellistasdeAmor.
+        </p>
+
+    </div>
+
+
+    <!-- PUBLICAR RESEÑA -->
+
+    {% if user.is_authenticated %}
+
+        {% if not user.is_staff and not user.is_superuser %}
+
+            <div class="resenas-acciones">
+
+                <a href="{% url 'crear_resena' %}"
+                   class="resenas-boton">
+                    ⭐ Publicar una reseña
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    {% endif %}
+
+
+    <!-- LISTADO DE RESEÑAS -->
+
+    <div class="resenas-grid">
+
+        {% for resena in resenas %}
+
+            <article class="resena-card">
+
+                <div class="resena-usuario">
+
+                    <div class="resena-avatar">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ resena.usuario.username }}
+                        </strong>
+
+                        <span class="resena-fecha">
+                            {{ resena.fecha|date:"d/m/Y" }}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CALIFICACIÓN -->
+
+                <div class="resena-estrellas">
+                    ⭐ {{ resena.calificacion }}/5
+                </div>
+
+
+                <!-- TÍTULO -->
+
+                <h3>
+                    {{ resena.titulo }}
+                </h3>
+
+
+                <!-- COMENTARIO -->
+
+                <div class="resena-comentario">{{ resena.comentario }}</div>
+
+
+                <!-- BOTONES DE ADMINISTRACIÓN -->
+
+                {% if user.is_authenticated %}
+
+                    {% if resena.usuario_id == user.id or user.is_staff or user.is_superuser %}
+
+                        <div class="resena-botones">
+
+                            <a href="{% url 'editar_resena' resena.id %}"
+                               class="resena-editar">
+                                ✏️ Editar
+                            </a>
+
+                            <a href="{% url 'eliminar_resena' resena.id %}"
+                               class="resena-eliminar">
+                                🗑️ Eliminar
+                            </a>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endif %}
+
+            </article>
+
+        {% empty %}
+
+            <div class="resenas-vacio">
+
+                <h3>🐾 Todavía no hay reseñas</h3>
+
+                <p>
+                    Sé parte de nuestra comunidad y comparte
+                    tu experiencia con HuellistasdeAmor.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

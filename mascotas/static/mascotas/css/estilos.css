@@ -1,0 +1,2375 @@
+
+/* ==========================================
+   HUELLISTASDEAMOR
+   HOJA DE ESTILOS PRINCIPAL
+========================================== */
+
+/* ===== ESTILOS GENERALES ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4faf9;
+    color: #344054;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+}
+
+/* ===== ENCABEZADO ===== */
+
+.encabezado {
+    background: white;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+}
+
+.navegacion {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: #239f95;
+    font-size: 25px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #344054;
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.menu a:hover {
+    color: #239f95;
+}
+
+/* ===== CONTENIDO ===== */
+
+.contenido {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 25px;
+    flex: 1;
+}
+
+/* ===== MENSAJES ===== */
+
+.contenedor-mensajes {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.mensaje {
+    background: #e3f7f2;
+    color: #17766d;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.mensaje.success {
+    background: #e0f7ec;
+    color: #176b49;
+    border-left: 4px solid #27ae60;
+}
+
+.mensaje.error {
+    background: #fdeaea;
+    color: #a93226;
+    border-left: 4px solid #e74c3c;
+}
+
+.mensaje.warning {
+    background: #fff4d9;
+    color: #946200;
+    border-left: 4px solid #f0ad4e;
+}
+
+.mensaje.info {
+    background: #e6f4ff;
+    color: #185a85;
+    border-left: 4px solid #3498db;
+}
+
+/* ===== PIE DE PÁGINA ===== */
+
+.pie {
+    background: #244e57;
+    color: white;
+    text-align: center;
+    padding: 25px;
+    line-height: 1.8;
+}
+
+/* ==========================================
+   PÁGINA DE INICIO
+========================================== */
+
+.hero {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+    gap: 40px;
+    background: linear-gradient(120deg, #e0f8f2, #f7fffc);
+    padding: 65px 55px;
+    border-radius: 25px;
+}
+
+.hero h1 {
+    font-size: 46px;
+    color: #244e57;
+    line-height: 1.2;
+    margin: 20px 0;
+}
+
+.hero p {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.hero-icono {
+    font-size: 100px;
+    text-align: center;
+}
+
+.etiqueta {
+    color: #159e8e;
+    font-weight: bold;
+}
+
+/* ===== BOTÓN PRINCIPAL ===== */
+
+.boton-principal {
+    display: inline-block;
+    padding: 15px 28px;
+    background: #26b6a4;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-principal:hover {
+    background: #168c7f;
+    transform: translateY(-2px);
+}
+
+/* ===== SECCIONES ===== */
+
+.seccion {
+    padding: 65px 0;
+}
+
+.seccion h2 {
+    color: #244e57;
+    font-size: 32px;
+    margin: 12px 0 30px;
+}
+
+/* ===== TARJETAS ===== */
+
+.cuadricula {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.tarjeta-mascota,
+.tarjeta-resena,
+.estado-vacio {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+}
+
+.tarjeta-mascota,
+.tarjeta-resena {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tarjeta-mascota:hover,
+.tarjeta-resena:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+.tarjeta-mascota img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+}
+
+.sin-foto {
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dff5ef;
+    font-size: 75px;
+}
+
+.tarjeta-contenido,
+.tarjeta-resena,
+.estado-vacio {
+    padding: 25px;
+}
+
+.tarjeta-contenido h3,
+.tarjeta-resena h3 {
+    color: #244e57;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.tarjeta-contenido p,
+.tarjeta-resena p {
+    line-height: 1.7;
+    margin-bottom: 12px;
+}
+
+.disponible {
+    display: inline-block;
+    color: #148c70;
+    background: #dff8eb;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.estrellas {
+    color: #d69b17;
+    margin-bottom: 15px;
+}
+
+/* ==========================================
+   CATÁLOGO DE MASCOTAS
+========================================== */
+
+.catalogo-encabezado {
+    background: linear-gradient(120deg, #dff7f1, #f5fffc);
+    text-align: center;
+    padding: 60px 35px;
+    border-radius: 25px;
+}
+
+.catalogo-encabezado h1 {
+    font-size: 42px;
+    color: #244e57;
+    margin: 18px 0;
+}
+
+.catalogo-encabezado p {
+    max-width: 650px;
+    margin: 0 auto;
+    font-size: 17px;
+    line-height: 1.8;
+    color: #52666b;
+}
+
+/* ===== ACCIONES DE MASCOTAS ===== */
+
+.acciones-mascota {
+    margin-top: 22px;
+}
+
+.boton-detalles {
+    display: block;
+    text-align: center;
+    background: #26b6a4;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.boton-detalles:hover {
+    background: #168c7f;
+}
+
+/* ==========================================
+   DETALLES DE MASCOTAS
+========================================== */
+
+.regresar {
+    margin-bottom: 25px;
+}
+
+.regresar a {
+    color: #159e8e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.regresar a:hover {
+    text-decoration: underline;
+}
+
+.detalle-contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+}
+
+.detalle-imagen img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.detalle-sin-foto {
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #dff5ef;
+    border-radius: 20px;
+    font-size: 100px;
+}
+
+.detalle-informacion h1 {
+    font-size: 44px;
+    color: #244e57;
+    margin: 15px 0;
+}
+
+.detalle-datos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.dato {
+    background: #f0faf7;
+    padding: 18px;
+    border-radius: 12px;
+}
+
+.dato strong {
+    color: #168c7f;
+    font-size: 14px;
+}
+
+.dato p {
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.detalle-descripcion h2 {
+    color: #244e57;
+    font-size: 23px;
+    margin-bottom: 15px;
+}
+
+.detalle-descripcion p {
+    line-height: 1.9;
+    color: #52666b;
+}
+
+.detalle-acciones {
+    margin-top: 35px;
+}
+
+.boton-adoptar {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #26b6a4;
+    color: white;
+    padding: 17px 25px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-adoptar:hover {
+    background: #168c7f;
+    transform: translateY(-2px);
+}
+
+.nota-adopcion {
+    margin-top: 15px;
+    text-align: center;
+    color: #667085;
+    font-size: 13px;
+}
+
+/* ==========================================
+   REGISTRO DE USUARIOS
+========================================== */
+
+.registro-seccion {
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px 70px;
+}
+
+.registro-contenedor {
+    width: 100%;
+    max-width: 540px;
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.07);
+}
+
+.registro-encabezado {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.registro-icono {
+    font-size: 55px;
+    margin-bottom: 12px;
+}
+
+.registro-encabezado h1 {
+    color: #244e57;
+    font-size: 29px;
+    margin-bottom: 12px;
+}
+
+.registro-encabezado p {
+    color: #667085;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.registro-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grupo-formulario label {
+    font-weight: 600;
+    color: #344054;
+    font-size: 14px;
+}
+
+.grupo-formulario input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.grupo-formulario input:focus {
+    border-color: #26b6a4;
+    box-shadow: 0 0 0 3px rgba(38, 182, 164, 0.12);
+}
+
+.ayuda-campo {
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.ayuda-campo ul {
+    padding-left: 20px;
+}
+
+.error-campo,
+.formulario-errores {
+    color: #c0392b;
+    font-size: 13px;
+}
+
+.boton-registro {
+    width: 100%;
+    background: #26b6a4;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.boton-registro:hover {
+    background: #168c7f;
+}
+
+.registro-pie {
+    text-align: center;
+    margin-top: 25px;
+    line-height: 2;
+    font-size: 14px;
+}
+
+.registro-pie a {
+    color: #159e8e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.texto-proximamente {
+    color: #667085;
+}
+
+/* ==========================================
+   INICIO DE SESIÓN
+========================================== */
+
+.login-seccion {
+    display: flex;
+    justify-content: center;
+    padding: 55px 15px 80px;
+}
+
+.login-contenedor {
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    padding: 45px 40px;
+    border-radius: 24px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.07);
+}
+
+.login-encabezado {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.login-icono {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.login-encabezado h1 {
+    color: #244e57;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.login-encabezado p {
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.login-formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.login-pie {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 2.2;
+}
+
+.login-pie a {
+    color: #159e8e;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-pie a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================
+   MENÚ DE USUARIOS
+========================================== */
+
+.formulario-logout {
+    display: inline-flex;
+    margin: 0;
+}
+
+.btn-registro {
+    display: inline-block;
+    background: #26b6a4;
+    color: white !important;
+    padding: 11px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn-registro:hover {
+    background: #168c7f;
+}
+
+.btn-salir {
+    background: #e76f72;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-salir:hover {
+    background: #cc5559;
+}
+
+.enlace-perfil {
+    color: #159e8e !important;
+    font-weight: bold;
+}
+
+.enlace-admin {
+    color: #159e8e !important;
+    font-weight: 700;
+}
+
+/* ==========================================
+   PERFIL DE USUARIO
+========================================== */
+
+.perfil-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 40px;
+    background: linear-gradient(120deg, #dff7f1, #f5fffc);
+    border-radius: 24px;
+}
+
+.perfil-avatar {
+    width: 100px;
+    height: 100px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    font-size: 55px;
+}
+
+.perfil-bienvenida h1 {
+    color: #244e57;
+    font-size: 34px;
+    margin: 12px 0;
+}
+
+.perfil-bienvenida p {
+    color: #52666b;
+    line-height: 1.7;
+}
+
+.perfil-seccion {
+    padding-top: 45px;
+}
+
+.perfil-seccion h2 {
+    color: #244e57;
+    font-size: 25px;
+    margin-bottom: 22px;
+}
+
+.perfil-tarjeta {
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+.perfil-tarjeta h3 {
+    color: #244e57;
+    margin-bottom: 12px;
+}
+
+.perfil-tarjeta p {
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.perfil-datos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.perfil-dato strong {
+    color: #159e8e;
+    font-size: 14px;
+}
+
+.perfil-dato p {
+    margin-top: 8px;
+}
+
+.perfil-listado {
+    display: grid;
+    gap: 20px;
+}
+
+.perfil-vacio {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.perfil-vacio p {
+    margin-bottom: 20px;
+    color: #667085;
+}
+
+.estado-solicitud {
+    display: inline-block;
+    background: #fff3d6;
+    color: #a66a00;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.perfil-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.perfil-pendiente {
+    color: #159e8e;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ==========================================
+   FORMULARIO DE RESEÑAS
+========================================== */
+
+.grupo-formulario textarea,
+.grupo-formulario select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 15px;
+    background: white;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.grupo-formulario textarea {
+    resize: vertical;
+    min-height: 130px;
+}
+
+.grupo-formulario textarea:focus,
+.grupo-formulario select:focus {
+    border-color: #26b6a4;
+    box-shadow: 0 0 0 3px rgba(38, 182, 164, 0.12);
+}
+
+.grupo-formulario textarea,
+.grupo-formulario input,
+.grupo-formulario select {
+    box-sizing: border-box;
+}
+
+/* ===== BOTÓN PUBLICAR RESEÑA ===== */
+
+.boton-publicar-resena {
+    display: inline-block;
+    background: #26b6a4;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-publicar-resena:hover {
+    background: #168c7f;
+    transform: translateY(-2px);
+}
+
+/* ===== ACCIONES DE RESEÑAS ===== */
+
+.acciones-resena {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.boton-editar-resena {
+    display: inline-block;
+    background: #e0f5f0;
+    color: #168c7f;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-editar-resena:hover {
+    background: #bce9df;
+    transform: translateY(-2px);
+}
+
+/* ===== ELIMINAR RESEÑAS ===== */
+
+.advertencia-eliminar {
+    background: #fff3e8;
+    border: 1px solid #ffd4b0;
+    color: #9a4b16;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.advertencia-eliminar p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.acciones-eliminar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 25px;
+}
+
+.boton-cancelar-eliminar {
+    display: inline-block;
+    padding: 13px 20px;
+    background: #e7f4f1;
+    color: #168c7f;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-cancelar-eliminar:hover {
+    background: #cceae3;
+    transform: translateY(-2px);
+}
+
+.boton-confirmar-eliminar {
+    padding: 13px 20px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-confirmar-eliminar:hover {
+    background: #b02a37;
+    transform: translateY(-2px);
+}
+
+.boton-eliminar-resena {
+    display: inline-block;
+    background: #fde8e8;
+    color: #c62828;
+    padding: 11px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.boton-eliminar-resena:hover {
+    background: #f8caca;
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   FORMULARIO DE SOLICITUD DE ADOPCIÓN
+========================================== */
+
+.formulario-adopcion {
+    width: 100%;
+    background: linear-gradient(135deg, #f0faf7, #ffffff);
+    border: 1px solid #d6eee8;
+    border-radius: 20px;
+    padding: 28px;
+    margin-top: 25px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
+}
+
+.formulario-adopcion h2 {
+    color: #244e57;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.texto-adopcion {
+    color: #52666b;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.campo-adopcion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.campo-adopcion label {
+    color: #244e57;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+.campo-adopcion textarea {
+    width: 100%;
+    min-height: 160px;
+    padding: 17px 18px;
+    background: #ffffff;
+    color: #344054;
+    border: 2px solid #d5e8e4;
+    border-radius: 14px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.campo-adopcion textarea::placeholder {
+    color: #98a2b3;
+    font-size: 14px;
+}
+
+.campo-adopcion textarea:focus {
+    border-color: #26b6a4;
+    box-shadow: 0 0 0 4px rgba(38, 182, 164, 0.12);
+}
+
+.ayuda-adopcion {
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* ===== BOTÓN DE ENVIAR SOLICITUD ===== */
+
+.formulario-adopcion .boton-adoptar {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #26b6a4, #159e8e);
+    color: #ffffff;
+    padding: 17px 24px;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(38, 182, 164, 0.18);
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.formulario-adopcion .boton-adoptar:hover {
+    background: linear-gradient(135deg, #168c7f, #11786e);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(38, 182, 164, 0.25);
+}
+
+.formulario-adopcion .boton-adoptar:active {
+    transform: translateY(0);
+}
+
+.formulario-adopcion .boton-adoptar:focus-visible {
+    outline: 3px solid #244e57;
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #159e8e;
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVO
+========================================== */
+
+/* ===== TABLETAS ===== */
+
+@media (max-width: 900px) {
+    .navegacion {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .menu {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 850px) {
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 35px 25px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero-icono {
+        font-size: 75px;
+    }
+
+    .cuadricula {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .detalle-contenedor {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .detalle-imagen img,
+    .detalle-sin-foto {
+        height: 320px;
+    }
+}
+
+/* ===== CELULARES ===== */
+
+@media (max-width: 768px) {
+    .navegacion {
+        flex-direction: column;
+    }
+
+    .menu {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .logo {
+        font-size: 22px;
+    }
+
+    .formulario-adopcion {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .formulario-adopcion h2 {
+        font-size: 22px;
+    }
+
+    .campo-adopcion textarea {
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 650px) {
+    .perfil-encabezado {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .perfil-bienvenida h1 {
+        font-size: 27px;
+    }
+
+    .perfil-datos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .cuadricula {
+        grid-template-columns: 1fr;
+    }
+
+    .seccion h2 {
+        font-size: 26px;
+    }
+
+    .catalogo-encabezado {
+        padding: 40px 20px;
+    }
+
+    .catalogo-encabezado h1 {
+        font-size: 30px;
+    }
+
+    .detalle-informacion h1 {
+        font-size: 34px;
+    }
+
+    .detalle-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .registro-contenedor {
+        padding: 25px 20px;
+    }
+
+    .registro-encabezado h1 {
+        font-size: 24px;
+    }
+
+    .login-contenedor {
+        padding: 30px 22px;
+    }
+
+    .login-encabezado h1 {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenido {
+        padding: 25px 15px;
+    }
+
+    .navegacion {
+        padding: 18px 15px;
+    }
+
+    .menu {
+        gap: 12px;
+    }
+
+    .menu a {
+        font-size: 14px;
+    }
+
+    .hero {
+        padding: 30px 20px;
+    }
+
+    .hero h1 {
+        font-size: 30px;
+    }
+
+    .perfil-tarjeta {
+        padding: 20px;
+    }
+
+    .formulario-adopcion {
+        padding: 18px;
+        margin-top: 20px;
+    }
+
+    .formulario-adopcion h2 {
+        font-size: 20px;
+    }
+
+    .texto-adopcion {
+        font-size: 14px;
+    }
+
+    .campo-adopcion textarea {
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    .formulario-adopcion .boton-adoptar {
+        padding: 15px;
+        font-size: 14px;
+    }
+}
+
+
+
+/* ==========================================
+   HUELLISTASDEAMOR
+   REDISEÑO PROFESIONAL
+   ENCABEZADO, NAVEGACIÓN Y PIE DE PÁGINA
+========================================== */
+
+:root {
+    --verde-principal: #09856f;
+    --verde-oscuro: #07574d;
+    --verde-hover: #066b5a;
+    --verde-claro: #e9f7f2;
+    --fondo-pagina: #f6faf9;
+    --texto-principal: #203b3b;
+    --texto-secundario: #657477;
+    --borde-suave: #e2eeea;
+    --sombra-suave: 0 8px 28px rgba(7, 65, 55, 0.07);
+}
+
+/* ==========================================
+   ESTRUCTURA GENERAL
+========================================== */
+
+body.sitio-huellistas {
+    background: var(--fondo-pagina);
+    color: var(--texto-principal);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.sitio-huellistas .contenido {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 35px 25px 65px;
+    flex: 1;
+}
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.sitio-huellistas .encabezado {
+    position: relative;
+    z-index: 100;
+    background: #ffffff;
+    border-bottom: 1px solid var(--borde-suave);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.025);
+}
+
+.sitio-huellistas .navegacion {
+    max-width: 1300px;
+    min-height: 78px;
+    margin: auto;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+}
+
+/* ==========================================
+   LOGOTIPO
+========================================== */
+
+.sitio-huellistas .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--verde-principal);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.05;
+    white-space: nowrap;
+}
+
+.sitio-huellistas .logo-huella {
+    font-size: 33px;
+    line-height: 1;
+}
+
+.sitio-huellistas .logo-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.sitio-huellistas .logo-texto strong {
+    font-weight: 800;
+}
+
+/* ==========================================
+   MENÚ PRINCIPAL
+========================================== */
+
+.sitio-huellistas .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex: 1;
+}
+
+.sitio-huellistas .menu .menu-enlace {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 42px;
+    color: #42575a;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.sitio-huellistas .menu .menu-enlace:hover,
+.sitio-huellistas .menu .menu-enlace.activo {
+    color: var(--verde-principal);
+}
+
+.sitio-huellistas .menu .menu-enlace.activo::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--verde-principal);
+    border-radius: 3px;
+}
+
+/* ==========================================
+   ZONA DE USUARIO
+========================================== */
+
+.navegacion-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.enlace-iniciar-sesion {
+    color: var(--verde-oscuro);
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.enlace-iniciar-sesion:hover {
+    color: var(--verde-principal);
+}
+
+.sitio-huellistas .btn-registro {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--verde-principal);
+    color: white !important;
+    padding: 11px 19px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.sitio-huellistas .btn-registro:hover {
+    background: var(--verde-hover);
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   MENÚ DESPLEGABLE DEL PERFIL
+========================================== */
+
+.menu-usuario {
+    position: relative;
+}
+
+.usuario-boton {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--texto-principal);
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s;
+}
+
+.usuario-boton::-webkit-details-marker {
+    display: none;
+}
+
+.usuario-boton::marker {
+    content: "";
+}
+
+.usuario-boton:hover,
+.menu-usuario[open] .usuario-boton {
+    background: var(--verde-claro);
+}
+
+.usuario-avatar {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #dcefe8;
+    font-size: 20px;
+}
+
+.usuario-flecha {
+    font-size: 13px;
+    color: var(--texto-secundario);
+}
+
+.usuario-desplegable {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    z-index: 200;
+    width: 260px;
+    padding: 9px;
+    background: white;
+    border: 1px solid var(--borde-suave);
+    border-radius: 15px;
+    box-shadow: 0 14px 40px rgba(0, 40, 35, 0.14);
+}
+
+.usuario-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 13px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--borde-suave);
+    overflow-wrap: anywhere;
+}
+
+.usuario-info strong {
+    font-size: 14px;
+    color: var(--texto-principal);
+}
+
+.usuario-info small {
+    font-size: 12px;
+    color: var(--texto-secundario);
+}
+
+.usuario-desplegable a,
+.usuario-desplegable .btn-salir {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--texto-principal) !important;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+}
+
+.usuario-desplegable a:hover {
+    background: var(--verde-claro);
+    color: var(--verde-principal) !important;
+}
+
+.usuario-desplegable .formulario-logout {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--borde-suave);
+}
+
+.usuario-desplegable .btn-salir {
+    color: #c0393b !important;
+}
+
+.usuario-desplegable .btn-salir:hover {
+    background: #fff0f0;
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+========================================== */
+
+.sitio-huellistas .pie {
+    background: var(--verde-oscuro);
+    color: white;
+    padding: 48px 25px 0;
+    text-align: left;
+}
+
+.pie-contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr 1fr;
+    gap: 38px;
+    padding-bottom: 40px;
+}
+
+.pie-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.pie-logo span:first-child {
+    font-size: 35px;
+}
+
+.pie-marca p {
+    max-width: 270px;
+    margin-top: 18px;
+    color: #c8e6dd;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.pie-columna {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 11px;
+}
+
+.pie-columna h3 {
+    margin-bottom: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.pie-columna a,
+.pie-columna p {
+    color: #c8e6dd;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.pie-columna a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.pie-inferior {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.17);
+}
+
+.pie-inferior p {
+    color: #c8e6dd;
+    font-size: 12px;
+}
+
+/* ==========================================
+   BOTONES DEL SITIO
+========================================== */
+
+.sitio-huellistas .boton-principal,
+.sitio-huellistas .boton-detalles,
+.sitio-huellistas .boton-adoptar,
+.sitio-huellistas .boton-registro,
+.sitio-huellistas .boton-publicar-resena {
+    background: var(--verde-principal);
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.sitio-huellistas .boton-principal:hover,
+.sitio-huellistas .boton-detalles:hover,
+.sitio-huellistas .boton-adoptar:hover,
+.sitio-huellistas .boton-registro:hover,
+.sitio-huellistas .boton-publicar-resena:hover {
+    background: var(--verde-hover);
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+========================================== */
+
+.sitio-huellistas a:focus-visible,
+.sitio-huellistas button:focus-visible,
+.sitio-huellistas summary:focus-visible {
+    outline: 3px solid #26b6a4;
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVO PARA TABLETAS
+========================================== */
+
+@media (max-width: 950px) {
+
+    .sitio-huellistas .navegacion {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .sitio-huellistas .menu {
+        order: 3;
+        flex-basis: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 22px;
+    }
+
+    .pie-contenedor {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+/* ==========================================
+   DISEÑO RESPONSIVO PARA CELULARES
+========================================== */
+
+@media (max-width: 600px) {
+
+    .sitio-huellistas .navegacion {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 16px;
+    }
+
+    .sitio-huellistas .logo {
+        font-size: 13px;
+    }
+
+    .sitio-huellistas .logo-huella {
+        font-size: 27px;
+    }
+
+    .sitio-huellistas .menu {
+        order: 3;
+        width: 100%;
+        flex-basis: 100%;
+        justify-content: space-around;
+        gap: 8px;
+    }
+
+    .sitio-huellistas .menu .menu-enlace {
+        font-size: 12px;
+        min-height: 36px;
+    }
+
+    .navegacion-usuario {
+        gap: 7px;
+    }
+
+    .usuario-nombre {
+        display: none;
+    }
+
+    .usuario-boton {
+        padding: 5px;
+    }
+
+    .enlace-iniciar-sesion {
+        font-size: 12px;
+    }
+
+    .sitio-huellistas .btn-registro {
+        padding: 9px 12px;
+        font-size: 12px;
+    }
+
+    .sitio-huellistas .contenido {
+        padding: 25px 15px 45px;
+    }
+
+    .sitio-huellistas .pie {
+        padding: 35px 20px 0;
+    }
+
+    .pie-contenedor {
+        grid-template-columns: 1fr 1fr;
+        gap: 28px 18px;
+    }
+
+    .pie-marca {
+        grid-column: 1 / -1;
+    }
+
+    .pie-inferior {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .sitio-huellistas .menu {
+        gap: 5px;
+    }
+
+    .sitio-huellistas .menu .menu-enlace {
+        font-size: 11px;
+    }
+
+    .pie-contenedor {
+        grid-template-columns: 1fr;
+    }
+
+    .pie-marca {
+        grid-column: auto;
+    }
+}
+
+
+
+/* ==========================================
+   PASO 125 - DISEÑO DE LA PÁGINA PRINCIPAL
+========================================== */
+
+/* PORTADA */
+
+.sitio-huellistas .hero-nuevo {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 35px;
+    min-height: 410px;
+    padding: 55px 50px;
+    border-radius: 22px;
+    background: linear-gradient(120deg, #e7f7f2, #ffffff);
+    overflow: hidden;
+}
+
+.hero-nuevo .hero-texto {
+    max-width: 570px;
+}
+
+.hero-nuevo .hero-texto h1 {
+    margin: 18px 0;
+    font-size: clamp(36px, 4.5vw, 58px);
+    line-height: 1.12;
+    font-weight: 800;
+    color: #233d3c;
+}
+
+.hero-nuevo .hero-texto h1 span {
+    color: #09856f;
+}
+
+.hero-nuevo .hero-texto p {
+    max-width: 480px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #526765;
+}
+
+.hero-botones {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.hero-botones .boton-principal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 24px;
+    border-radius: 12px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.boton-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 22px;
+    border: 1px solid #09856f;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #087763;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.boton-secundario:hover {
+    background: #e9f7f2;
+}
+
+/* ÁREA VISUAL PROVISIONAL */
+
+.hero-nuevo .hero-imagen {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 310px;
+}
+
+.hero-mascotas {
+    font-size: clamp(100px, 13vw, 180px);
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.hero-decoracion {
+    position: absolute;
+    color: #09856f;
+    font-size: 35px;
+}
+
+.decoracion-uno {
+    top: 10%;
+    right: 5%;
+}
+
+.decoracion-dos {
+    bottom: 12%;
+    left: 5%;
+}
+
+/* TARJETAS ADOPTA, CUIDA Y PROTEGE */
+
+.beneficios-inicio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 25px 0 45px;
+}
+
+.beneficio {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    min-height: 105px;
+    padding: 22px;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+a.beneficio:hover {
+    transform: translateY(-4px);
+}
+
+.beneficio-adopta {
+    background: #e5f4f0;
+}
+
+.beneficio-cuida {
+    background: #fff0f3;
+}
+
+.beneficio-reporta {
+    background: #fff5e6;
+}
+
+.beneficio-icono {
+    font-size: 34px;
+    flex-shrink: 0;
+}
+
+.beneficio h3 {
+    margin: 0 0 6px;
+    color: #263c3b;
+    font-size: 18px;
+}
+
+.beneficio p {
+    margin: 0;
+    color: #60716f;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* ENCABEZADOS DE SECCIONES */
+
+.sitio-huellistas .seccion-inicio {
+    padding: 30px 0 45px;
+}
+
+.encabezado-seccion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.encabezado-seccion h2 {
+    margin: 8px 0 0;
+    font-size: 29px;
+    color: #234340;
+}
+
+.enlace-ver-todas {
+    color: #087f69;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.enlace-ver-todas:hover {
+    text-decoration: underline;
+}
+
+/* TARJETAS DE MASCOTAS */
+
+.cuadricula-inicio {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.tarjeta-inicio {
+    overflow: hidden;
+    border: 1px solid #e1ece8;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 5px 20px rgba(0, 55, 45, 0.06);
+}
+
+.tarjeta-inicio > img,
+.tarjeta-inicio > .sin-foto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.tarjeta-inicio .tarjeta-contenido {
+    padding: 18px;
+}
+
+.tarjeta-inicio .tarjeta-contenido h3 {
+    margin-bottom: 7px;
+    font-size: 19px;
+}
+
+.mascota-datos,
+.mascota-raza {
+    color: #637572;
+    font-size: 13px;
+}
+
+.mascota-descripcion {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.tarjeta-inicio .acciones-mascota {
+    margin-top: 18px;
+}
+
+.tarjeta-inicio .boton-detalles {
+    display: block;
+    padding: 11px;
+    border-radius: 9px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* RESEÑAS */
+
+.cuadricula-resenas-inicio {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.resena-inicio {
+    padding: 22px;
+    border: 1px solid #e1ece8;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0, 55, 45, 0.05);
+}
+
+.resena-superior {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.resena-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e2f3ed;
+    color: #087f69;
+    font-weight: 800;
+}
+
+.resena-autor {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.resena-autor small {
+    color: #83908d;
+}
+
+.resena-inicio h3 {
+    margin: 10px 0;
+    font-size: 17px;
+}
+
+.resena-inicio p {
+    color: #62716e;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* DISEÑO PARA TABLETAS */
+
+@media (max-width: 950px) {
+
+    .sitio-huellistas .hero-nuevo {
+        grid-template-columns: 1fr 1fr;
+        padding: 35px;
+    }
+
+    .hero-mascotas {
+        font-size: 105px;
+    }
+
+    .cuadricula-inicio {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cuadricula-resenas-inicio {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* DISEÑO PARA CELULARES */
+
+@media (max-width: 650px) {
+
+    .sitio-huellistas .hero-nuevo {
+        grid-template-columns: 1fr;
+        padding: 35px 22px;
+        gap: 10px;
+    }
+
+    .hero-nuevo .hero-texto h1 {
+        font-size: 37px;
+    }
+
+    .hero-nuevo .hero-imagen {
+        min-height: 180px;
+    }
+
+    .hero-mascotas {
+        font-size: 95px;
+    }
+
+    .beneficios-inicio {
+        grid-template-columns: 1fr;
+    }
+
+    .cuadricula-inicio,
+    .cuadricula-resenas-inicio {
+        grid-template-columns: 1fr;
+    }
+
+    .encabezado-seccion h2 {
+        font-size: 25px;
+    }
+}
+
+
+
+/* ==========================================
+   PASO 129 - FOTOGRAFÍA PRINCIPAL
+========================================== */
+
+.hero-nuevo .hero-imagen {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 310px;
+}
+
+.hero-nuevo .hero-foto {
+    display: block;
+    width: 100%;
+    max-width: 520px;
+    height: 310px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 22px;
+    box-shadow: 0 15px 35px rgba(0, 65, 50, 0.10);
+}
+
+@media (max-width: 650px) {
+
+    .hero-nuevo .hero-foto {
+        max-width: 100%;
+        height: 240px;
+    }
+
+}
+
+
+
+/* ==========================================
+   HUELLISTASDEAMOR
+   PASO 192 - PROCESO DE ADOPCIÓN
+========================================== */
+
+.sitio-huellistas .pasos-adopcion {
+    width: 100%;
+    max-width: 1200px;
+    margin: 45px auto 70px;
+    padding: 55px 30px;
+    background: linear-gradient(135deg, #eaf8f3, #f8fdfb);
+    border: 1px solid #dcefe8;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.sitio-huellistas .pasos-adopcion > .etiqueta {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #09856f;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.sitio-huellistas .pasos-adopcion h2 {
+    margin: 0 0 15px;
+    color: #07574d;
+    font-size: clamp(25px, 3vw, 34px);
+    font-weight: 800;
+}
+
+.sitio-huellistas .pasos-adopcion .pasos-descripcion {
+    max-width: 650px;
+    margin: 0 auto 38px;
+    color: #60716f;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* CUADRÍCULA DE CUATRO TARJETAS */
+
+.sitio-huellistas .pasos-adopcion .pasos-cuadricula {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+/* DISEÑO DE CADA TARJETA */
+
+.sitio-huellistas .pasos-adopcion .paso-tarjeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 30px 18px;
+    background: #ffffff;
+    border: 1px solid #dceee8;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(7, 65, 55, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sitio-huellistas .pasos-adopcion .paso-tarjeta:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 32px rgba(7, 65, 55, 0.12);
+}
+
+/* NÚMERO DEL PASO */
+
+.sitio-huellistas .pasos-adopcion .paso-numero {
+    display: inline-block;
+    padding: 7px 16px;
+    background: #e3f7ef;
+    color: #087f69;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* ÍCONOS */
+
+.sitio-huellistas .pasos-adopcion .paso-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    margin: 22px auto;
+    background: #f0faf6;
+    border-radius: 50%;
+    font-size: 40px;
+}
+
+/* TÍTULOS Y DESCRIPCIONES */
+
+.sitio-huellistas .pasos-adopcion .paso-tarjeta h3 {
+    margin: 0 0 12px;
+    color: #155d50;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.4;
+}
+
+.sitio-huellistas .pasos-adopcion .paso-tarjeta p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* BOTÓN FINAL */
+
+.sitio-huellistas .pasos-adopcion .pasos-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+    padding: 15px 28px;
+    background: #09856f;
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.sitio-huellistas .pasos-adopcion .pasos-boton:hover {
+    background: #066b5a;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* TABLETAS */
+
+@media (max-width: 950px) {
+    .sitio-huellistas .pasos-adopcion .pasos-cuadricula {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* CELULARES */
+
+@media (max-width: 550px) {
+    .sitio-huellistas .pasos-adopcion {
+        margin: 30px auto 45px;
+        padding: 35px 18px;
+        border-radius: 18px;
+    }
+
+    .sitio-huellistas .pasos-adopcion .pasos-cuadricula {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .sitio-huellistas .pasos-adopcion .paso-tarjeta {
+        padding: 25px 20px;
+    }
+
+    .sitio-huellistas .pasos-adopcion .pasos-descripcion {
+        font-size: 14px;
+    }
+
+    .sitio-huellistas .pasos-adopcion .pasos-boton {
+        width: 100%;
+    }
+}

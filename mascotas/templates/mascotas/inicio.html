@@ -1,0 +1,545 @@
+
+{% extends 'mascotas/base.html' %}
+{% load static %}
+
+{% block title %}Inicio | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<!-- ==========================================
+     PORTADA PRINCIPAL
+========================================== -->
+
+<section class="hero hero-nuevo">
+
+    <div class="hero-texto">
+
+        <span class="etiqueta">
+            🐾 Bienvenido a HuellistasdeAmor
+        </span>
+
+        <h1>
+            Dales una
+            <span>segunda oportunidad</span>
+        </h1>
+
+        <p>
+            Adopta, cuida y cambia la vida de
+            un animal que te necesita.
+            Encuentra a tu nuevo mejor amigo
+            y comienza una historia llena de amor.
+        </p>
+
+        <div class="hero-botones">
+
+            <a href="{% url 'catalogo' %}"
+               class="boton-principal">
+                🐾 Ver mascotas
+            </a>
+
+            <a href="#pasos-adopcion"
+               class="boton-secundario">
+                ♡ Cómo adoptar
+            </a>
+
+        </div>
+
+    </div>
+
+  
+<div class="hero-imagen">
+
+    <img
+        src="{% static 'mascotas/img/Perros-y-gatos.png' %}"
+        alt="Perrito y gatito descansando juntos"
+        class="hero-foto"
+    >
+
+    <div class="hero-decoracion decoracion-uno">
+        🐾
+    </div>
+
+    <div class="hero-decoracion decoracion-dos">
+        ♡
+    </div>
+
+</div>
+
+
+</section>
+
+
+<!-- ==========================================
+     ADOPTA, CUIDA Y REPORTA
+========================================== -->
+
+<section class="beneficios-inicio" id="como-adoptar">
+
+    <a href="{% url 'catalogo' %}"
+       class="beneficio beneficio-adopta">
+
+        <div class="beneficio-icono">
+            🐾
+        </div>
+
+        <div>
+            <h3>Adopta</h3>
+            <p>
+                Conoce a nuestras mascotas
+                disponibles para adopción.
+            </p>
+        </div>
+
+    </a>
+
+
+    <div class="beneficio beneficio-cuida">
+
+        <div class="beneficio-icono">
+            ❤️
+        </div>
+
+        <div>
+            <h3>Cuida</h3>
+            <p>
+                Bríndales un hogar seguro,
+                atención y mucho amor.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="beneficio beneficio-reporta">
+
+        <div class="beneficio-icono">
+            🛡️
+        </div>
+
+        <div>
+            <h3>Protege</h3>
+            <p>
+                Promovamos juntos el respeto
+                y bienestar de los animales.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ==========================================
+     CÓMO FUNCIONA LA ADOPCIÓN
+========================================== -->
+
+<style>
+    .pasos-adopcion {
+        max-width: 1200px;
+        margin: 45px auto 65px;
+        padding: 45px 25px;
+        text-align: center;
+    }
+
+    .pasos-adopcion h2 {
+        color: #087f69;
+        font-size: 29px;
+        margin-bottom: 12px;
+    }
+
+    .pasos-adopcion .pasos-descripcion {
+        color: #64748b;
+        max-width: 650px;
+        margin: 0 auto 35px;
+        line-height: 1.7;
+    }
+
+    .pasos-adopcion .pasos-cuadricula {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .pasos-adopcion .paso-tarjeta {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 18px;
+        padding: 28px 18px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.04);
+        transition: transform 0.2s;
+    }
+
+    .pasos-adopcion .paso-tarjeta:hover {
+        transform: translateY(-5px);
+    }
+
+    .pasos-adopcion .paso-numero {
+        display: inline-block;
+        background: #e0f7ef;
+        color: #087f69;
+        border-radius: 25px;
+        padding: 6px 15px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .pasos-adopcion .paso-icono {
+        font-size: 42px;
+        margin: 18px 0;
+    }
+
+    .pasos-adopcion .paso-tarjeta h3 {
+        color: #155d50;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .pasos-adopcion .paso-tarjeta p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .pasos-adopcion .pasos-boton {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 13px 24px;
+        border-radius: 11px;
+        background: #087f69;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .pasos-adopcion .pasos-boton:hover {
+        background: #066551;
+        color: white;
+    }
+
+    @media (max-width: 900px) {
+        .pasos-adopcion .pasos-cuadricula {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 520px) {
+        .pasos-adopcion .pasos-cuadricula {
+            grid-template-columns: 1fr;
+        }
+
+        .pasos-adopcion {
+            padding: 30px 15px;
+        }
+    }
+</style>
+
+<section class="pasos-adopcion" id="pasos-adopcion">
+
+    <span class="etiqueta">
+        Un hogar comienza con una oportunidad
+    </span>
+
+    <h2>🐾 ¿Cómo funciona la adopción?</h2>
+
+    <p class="pasos-descripcion">
+        Adoptar es un acto de amor.
+        Conoce los pasos para encontrar a tu
+        nuevo compañero en HuellistasdeAmor.
+    </p>
+
+    <div class="pasos-cuadricula">
+
+        <!-- PASO 1 -->
+
+        <article class="paso-tarjeta">
+            <span class="paso-numero">PASO 01</span>
+
+            <div class="paso-icono">🔎</div>
+
+            <h3>Encuentra a tu compañero</h3>
+
+            <p>
+                Explora nuestro catálogo y conoce
+                a las mascotas disponibles para adopción.
+            </p>
+        </article>
+
+        <!-- PASO 2 -->
+
+        <article class="paso-tarjeta">
+            <span class="paso-numero">PASO 02</span>
+
+            <div class="paso-icono">📝</div>
+
+            <h3>Envía tu solicitud</h3>
+
+            <p>
+                Inicia sesión, selecciona una mascota
+                y completa tu solicitud de adopción.
+            </p>
+        </article>
+
+        <!-- PASO 3 -->
+
+        <article class="paso-tarjeta">
+            <span class="paso-numero">PASO 03</span>
+
+            <div class="paso-icono">💚</div>
+
+            <h3>Espera la revisión</h3>
+
+            <p>
+                Nuestro equipo revisará tu solicitud.
+                Podrás consultar su estado desde tu perfil.
+            </p>
+        </article>
+
+        <!-- PASO 4 -->
+
+        <article class="paso-tarjeta">
+            <span class="paso-numero">PASO 04</span>
+
+            <div class="paso-icono">🏡</div>
+
+            <h3>Dale un hogar</h3>
+
+            <p>
+                Si tu solicitud es aprobada,
+                podrás continuar con el proceso
+                para recibir a tu nuevo amigo.
+            </p>
+        </article>
+
+    </div>
+
+    <a href="{% url 'catalogo' %}" class="pasos-boton">
+        🐶 Conocer mascotas disponibles
+    </a>
+
+</section>
+
+
+
+
+
+<!-- ==========================================
+     MASCOTAS EN ADOPCIÓN
+========================================== -->
+
+<section id="mascotas" class="seccion seccion-inicio">
+
+    <div class="encabezado-seccion">
+
+        <div>
+            <span class="etiqueta">
+                Nuestros pequeños amigos
+            </span>
+
+            <h2>🐾 Mascotas en adopción</h2>
+        </div>
+
+        <a href="{% url 'catalogo' %}"
+           class="enlace-ver-todas">
+            Ver todas →
+        </a>
+
+    </div>
+
+
+    <div class="cuadricula cuadricula-inicio">
+
+        {% for mascota in mascotas %}
+
+        <article class="tarjeta-mascota tarjeta-inicio">
+
+            {% if mascota.foto %}
+
+                <img
+                    src="{{ mascota.foto.url }}"
+                    alt="Fotografía de {{ mascota.nombre }}"
+                    loading="lazy"
+                >
+
+            {% else %}
+
+                <div class="sin-foto">
+                    🐾
+                </div>
+
+            {% endif %}
+
+
+            <div class="tarjeta-contenido">
+
+                <h3>{{ mascota.nombre }}</h3>
+
+                <p class="mascota-datos">
+                    {{ mascota.especie }}
+                    ·
+                    {{ mascota.edad }} meses
+                </p>
+
+                <p class="mascota-raza">
+                    {{ mascota.raza|default:"Raza no especificada" }}
+                </p>
+
+                <p class="mascota-descripcion">
+                    {{ mascota.descripcion|truncatewords:12 }}
+                </p>
+
+
+                {% if mascota.disponible %}
+
+                    <span class="disponible">
+                        Disponible
+                    </span>
+
+                {% else %}
+
+                    <span class="estado-solicitud">
+                        No disponible
+                    </span>
+
+                {% endif %}
+
+
+                <div class="acciones-mascota">
+
+                    <a href="{% url 'detalle_mascota' mascota.id %}"
+                       class="boton-detalles">
+                        Ver detalles
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% empty %}
+
+        <div class="estado-vacio">
+
+            <h3>🐾 Próximamente nuevas mascotas</h3>
+
+            <p>
+                Estamos preparando nuevas historias
+                de adopción.
+            </p>
+
+            <a href="{% url 'catalogo' %}"
+               class="boton-principal">
+                Visitar catálogo
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     RESEÑAS DE NUESTRA COMUNIDAD
+========================================== -->
+
+<section id="resenas" class="seccion seccion-inicio">
+
+    <div class="encabezado-seccion">
+
+        <div>
+            <span class="etiqueta">
+                Nuestra comunidad
+            </span>
+
+            <h2>⭐ Reseñas de nuestros usuarios</h2>
+        </div>
+
+
+        {% if user.is_authenticated %}
+
+            {% if not user.is_staff and not user.is_superuser %}
+
+                <a href="{% url 'crear_resena' %}"
+                   class="boton-publicar-resena">
+                    ✍️ Escribir una reseña
+                </a>
+
+            {% endif %}
+
+        {% else %}
+
+            <a href="{% url 'login' %}"
+               class="boton-publicar-resena">
+                ✍️ Escribir una reseña
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="cuadricula cuadricula-resenas-inicio">
+
+        {% for resena in resenas %}
+
+        <article class="tarjeta-resena resena-inicio">
+
+            <div class="resena-superior">
+
+                <div class="resena-avatar">
+                    {{ resena.usuario.username|first|upper }}
+                </div>
+
+                <div class="resena-autor">
+
+                    <strong>
+                        {{ resena.usuario.username }}
+                    </strong>
+
+                    <small>
+                        {{ resena.fecha|date:"d/m/Y" }}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="estrellas">
+                ⭐ {{ resena.calificacion }}/5
+            </div>
+
+            <h3>{{ resena.titulo }}</h3>
+
+            <p>
+                {{ resena.comentario|truncatewords:35 }}
+            </p>
+
+        </article>
+
+        {% empty %}
+
+        <div class="estado-vacio">
+
+            <h3>💚 Tu experiencia importa</h3>
+
+            <p>
+                Todavía no hay reseñas publicadas.
+                Sé la primera persona en compartir
+                tu experiencia.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
+

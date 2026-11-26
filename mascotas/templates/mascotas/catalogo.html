@@ -1,0 +1,532 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Catálogo | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<style>
+    /* =====================================
+       BUSCADOR Y FILTROS DEL CATÁLOGO
+    ====================================== */
+
+    .catalogo-filtros {
+        max-width: 1150px;
+        margin: 20px auto 35px;
+        padding: 25px;
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 18px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .catalogo-filtros h2 {
+        color: #155d50;
+        font-size: 22px;
+        margin: 0 0 8px;
+    }
+
+    .catalogo-filtros p {
+        color: #71817d;
+        margin: 0 0 20px;
+    }
+
+    .catalogo-formulario {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr) auto;
+        gap: 15px;
+        align-items: end;
+    }
+
+    .catalogo-campo {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .catalogo-campo label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #155d50;
+    }
+
+    .catalogo-campo input,
+    .catalogo-campo select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 15px;
+        border: 1px solid #cfe5dd;
+        border-radius: 10px;
+        background: white;
+        color: #334b43;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .catalogo-campo input:focus,
+    .catalogo-campo select:focus {
+        border-color: #087f69;
+        box-shadow: 0 0 0 3px rgba(8, 127, 105, 0.1);
+    }
+
+    .catalogo-limpiar {
+        padding: 13px 20px;
+        border: none;
+        border-radius: 10px;
+        background: #087f69;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .catalogo-limpiar:hover {
+        background: #066551;
+    }
+
+    .catalogo-resultados {
+        margin-top: 20px;
+        color: #087f69;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .catalogo-sin-resultados {
+        display: none;
+        text-align: center;
+        padding: 45px 20px;
+        margin-top: 20px;
+        background: #f1faf6;
+        border-radius: 18px;
+        border: 1px solid #dcefe7;
+    }
+
+    .catalogo-sin-resultados h3 {
+        color: #155d50;
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .catalogo-sin-resultados p {
+        color: #71817d;
+        margin-bottom: 20px;
+    }
+
+    .catalogo-sin-resultados button {
+        background: #087f69;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    @media (max-width: 760px) {
+        .catalogo-formulario {
+            grid-template-columns: 1fr;
+        }
+
+        .catalogo-limpiar {
+            width: 100%;
+        }
+
+        .catalogo-filtros {
+            margin: 20px 15px 30px;
+            padding: 20px;
+        }
+    }
+</style>
+
+
+<!-- =====================================
+     ENCABEZADO DEL CATÁLOGO
+====================================== -->
+
+<section class="catalogo-encabezado">
+
+    <span class="etiqueta">
+        🐾 Encuentra a tu compañero ideal
+    </span>
+
+    <h1>Mascotas en adopción</h1>
+
+    <p>
+        Cada huellita tiene una historia especial.
+        Conoce a nuestros amigos peludos y encuentra
+        a quien podría convertirse en tu mejor amigo.
+    </p>
+
+</section>
+
+
+<!-- =====================================
+     BUSCADOR Y FILTROS
+====================================== -->
+
+<section class="catalogo-filtros">
+
+    <h2>🔎 Encuentra a tu nuevo amigo</h2>
+
+    <p>
+        Busca por nombre, raza o selecciona
+        la especie que prefieras.
+    </p>
+
+    <div class="catalogo-formulario">
+
+        <!-- BUSCADOR -->
+
+        <div class="catalogo-campo">
+
+            <label for="buscarMascota">
+                Buscar mascota
+            </label>
+
+            <input
+                type="search"
+                id="buscarMascota"
+                placeholder="Ejemplo: Luna, Labrador, Siamés..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- FILTRO POR ESPECIE -->
+
+        <div class="catalogo-campo">
+
+            <label for="filtroEspecie">
+                Especie
+            </label>
+
+            <select id="filtroEspecie">
+
+                <option value="todas">
+                    Todas las especies
+                </option>
+
+                <option value="perro">
+                    🐶 Perros
+                </option>
+
+                <option value="gato">
+                    🐱 Gatos
+                </option>
+
+                <option value="otro">
+                    🐾 Otros
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- LIMPIAR FILTROS -->
+
+        <button
+            type="button"
+            class="catalogo-limpiar"
+            id="limpiarFiltros"
+        >
+            🧹 Limpiar
+        </button>
+
+    </div>
+
+
+    <!-- CONTADOR DE RESULTADOS -->
+
+    <div
+        class="catalogo-resultados"
+        id="contadorResultados"
+        aria-live="polite"
+    >
+        Cargando mascotas...
+    </div>
+
+</section>
+
+
+<!-- =====================================
+     LISTADO DE MASCOTAS
+====================================== -->
+
+<section class="seccion">
+
+    <div class="titulo-seccion">
+
+        <h2>💚 Conoce a nuestros peluditos</h2>
+
+    </div>
+
+
+    <div class="cuadricula" id="cuadriculaMascotas">
+
+        {% for mascota in mascotas %}
+
+        <article
+            class="tarjeta-mascota"
+            data-nombre="{{ mascota.nombre|lower }}"
+            data-raza="{{ mascota.raza|default:''|lower }}"
+            data-especie="{{ mascota.especie|lower }}"
+        >
+
+            <!-- FOTOGRAFÍA DE LA MASCOTA -->
+
+            {% if mascota.foto %}
+
+                <img
+                    src="{{ mascota.foto.url }}"
+                    alt="Fotografía de {{ mascota.nombre }}"
+                    loading="lazy"
+                >
+
+            {% else %}
+
+                <div class="sin-foto">
+                    🐾
+                </div>
+
+            {% endif %}
+
+
+            <!-- INFORMACIÓN DE LA MASCOTA -->
+
+            <div class="tarjeta-contenido">
+
+                <h3>{{ mascota.nombre }}</h3>
+
+                <p>
+                    <strong>🐾 Especie:</strong>
+                    {{ mascota.especie }}
+                </p>
+
+                <p>
+                    <strong>🏷️ Raza:</strong>
+                    {{ mascota.raza|default:"Sin raza especificada" }}
+                </p>
+
+                <p>
+                    <strong>🎂 Edad:</strong>
+                    {{ mascota.edad }} meses
+                </p>
+
+                <p>
+                    {{ mascota.descripcion|truncatewords:20 }}
+                </p>
+
+
+                <!-- ESTADO DE ADOPCIÓN -->
+
+                {% if mascota.disponible %}
+
+                    <span class="disponible">
+                        💚 Disponible para adopción
+                    </span>
+
+                {% else %}
+
+                    <span class="estado-solicitud">
+                        🏡 Mascota no disponible
+                    </span>
+
+                {% endif %}
+
+
+                <!-- BOTÓN DE DETALLES -->
+
+                <div class="acciones-mascota">
+
+                    <a
+                        href="{% url 'detalle_mascota' mascota.id %}"
+                        class="boton-detalles"
+                    >
+                        Ver detalles 🐾
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        {% empty %}
+
+        <!-- MENSAJE CUANDO NO HAY MASCOTAS -->
+
+        <div class="estado-vacio">
+
+            <h3>
+                🐾 Aún no tenemos mascotas disponibles
+            </h3>
+
+            <p>
+                Pronto tendremos nuevos amigos
+                esperando encontrar un hogar.
+            </p>
+
+            <a
+                href="{% url 'inicio' %}"
+                class="boton-principal"
+            >
+                Volver al inicio
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <!-- MENSAJE CUANDO LOS FILTROS NO COINCIDEN -->
+
+    {% if mascotas %}
+
+    <div
+        class="catalogo-sin-resultados"
+        id="mensajeSinResultados"
+    >
+
+        <h3>🐾 No encontramos mascotas</h3>
+
+        <p>
+            Ninguna mascota coincide con tu búsqueda.
+            Prueba con otro nombre, raza o especie.
+        </p>
+
+        <button
+            type="button"
+            id="reiniciarBusqueda"
+        >
+            Ver todas las mascotas
+        </button>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- =====================================
+     FUNCIONALIDAD DEL BUSCADOR Y FILTROS
+====================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const buscador = document.getElementById("buscarMascota");
+    const filtroEspecie = document.getElementById("filtroEspecie");
+    const botonLimpiar = document.getElementById("limpiarFiltros");
+    const contador = document.getElementById("contadorResultados");
+    const mensajeSinResultados = document.getElementById("mensajeSinResultados");
+
+    const tarjetas = Array.from(
+        document.querySelectorAll("#cuadriculaMascotas .tarjeta-mascota")
+    );
+
+    function normalizarTexto(texto) {
+        return String(texto || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .trim();
+    }
+
+    function filtrarMascotas() {
+
+        const textoBusqueda = normalizarTexto(buscador.value);
+        const especieSeleccionada = normalizarTexto(filtroEspecie.value);
+
+        let totalVisibles = 0;
+
+        tarjetas.forEach(function (tarjeta) {
+
+            const nombre = normalizarTexto(tarjeta.dataset.nombre);
+            const raza = normalizarTexto(tarjeta.dataset.raza);
+            const especie = normalizarTexto(tarjeta.dataset.especie);
+
+            const coincideBusqueda =
+                nombre.includes(textoBusqueda) ||
+                raza.includes(textoBusqueda);
+
+            const coincideEspecie =
+                especieSeleccionada === "todas" ||
+                especie === especieSeleccionada ||
+                (
+                    especieSeleccionada === "otro" &&
+                    especie !== "perro" &&
+                    especie !== "gato"
+                );
+
+            if (coincideBusqueda && coincideEspecie) {
+
+                tarjeta.style.display = "";
+                totalVisibles++;
+
+            } else {
+
+                tarjeta.style.display = "none";
+
+            }
+
+        });
+
+        contador.textContent =
+            totalVisibles === 1
+                ? "💚 1 mascota encontrada"
+                : "💚 " + totalVisibles + " mascotas encontradas";
+
+        if (mensajeSinResultados) {
+
+            mensajeSinResultados.style.display =
+                totalVisibles === 0 && tarjetas.length > 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+    function limpiarFiltros() {
+
+        buscador.value = "";
+        filtroEspecie.value = "todas";
+
+        filtrarMascotas();
+
+        buscador.focus();
+
+    }
+
+    buscador.addEventListener("input", filtrarMascotas);
+
+    filtroEspecie.addEventListener("change", filtrarMascotas);
+
+    botonLimpiar.addEventListener("click", limpiarFiltros);
+
+    const reiniciarBusqueda =
+        document.getElementById("reiniciarBusqueda");
+
+    if (reiniciarBusqueda) {
+
+        reiniciarBusqueda.addEventListener(
+            "click",
+            limpiarFiltros
+        );
+
+    }
+
+    filtrarMascotas();
+
+});
+</script>
+
+{% endblock %}
+

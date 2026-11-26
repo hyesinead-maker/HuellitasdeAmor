@@ -1,0 +1,722 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Panel administrativo | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .panel-admin {
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+        max-width: 1450px;
+        margin: 35px auto;
+        padding: 0 22px;
+        gap: 25px;
+        align-items: start;
+    }
+
+    .panel-lateral {
+        background: #087f69;
+        border-radius: 20px;
+        padding: 28px 18px;
+        color: white;
+        position: sticky;
+        top: 20px;
+    }
+
+    .panel-lateral h2 {
+        font-size: 21px;
+        margin: 0 0 8px;
+        color: white;
+    }
+
+    .panel-lateral p {
+        font-size: 13px;
+        color: #d7f5ed;
+        margin-bottom: 30px;
+    }
+
+    .panel-lateral a {
+        display: block;
+        padding: 13px 15px;
+        margin-bottom: 8px;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .panel-lateral a:hover,
+    .panel-lateral a.activo {
+        background: rgba(255, 255, 255, 0.18);
+    }
+
+    .panel-contenido {
+        min-width: 0;
+    }
+
+    .panel-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+    }
+
+    .panel-encabezado h1 {
+        color: #155d50;
+        font-size: 29px;
+        margin: 0 0 8px;
+    }
+
+    .panel-encabezado p {
+        color: #71817d;
+        margin: 0;
+    }
+
+    .panel-boton {
+        display: inline-block;
+        background: #087f69;
+        color: white;
+        text-decoration: none;
+        border-radius: 11px;
+        padding: 13px 19px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .panel-boton:hover {
+        background: #066551;
+        color: white;
+    }
+
+    /* =====================================
+       ESTADÍSTICAS
+    ====================================== */
+
+    .panel-estadisticas {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+
+    .panel-estadistica {
+        background: white;
+        padding: 23px;
+        border-radius: 17px;
+        border: 1px solid #e0eee9;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.035);
+    }
+
+    .panel-estadistica .icono {
+        font-size: 26px;
+        display: block;
+        margin-bottom: 12px;
+    }
+
+    .panel-estadistica h3 {
+        color: #61746d;
+        font-size: 13px;
+        margin: 0 0 10px;
+    }
+
+    .panel-estadistica strong {
+        color: #155d50;
+        font-size: 32px;
+    }
+
+    /* =====================================
+       SECCIONES
+    ====================================== */
+
+    .panel-seccion {
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 18px;
+        padding: 24px;
+        margin-bottom: 25px;
+        overflow: hidden;
+    }
+
+    .panel-seccion h2 {
+        font-size: 20px;
+        color: #155d50;
+        margin: 0 0 18px;
+    }
+
+    .panel-seccion-encabezado {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .panel-seccion-encabezado h2 {
+        margin: 0;
+    }
+
+    /* =====================================
+       TABLAS
+    ====================================== */
+
+    .panel-tabla-contenedor {
+        overflow-x: auto;
+    }
+
+    .panel-tabla {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+
+    .panel-tabla th {
+        text-align: left;
+        padding: 13px;
+        background: #eaf8f3;
+        color: #216b59;
+    }
+
+    .panel-tabla td {
+        padding: 14px 13px;
+        border-bottom: 1px solid #edf2ef;
+        color: #42534e;
+    }
+
+    .panel-tabla tr:last-child td {
+        border-bottom: none;
+    }
+
+    /* =====================================
+       ESTADOS
+    ====================================== */
+
+    .panel-estado {
+        display: inline-block;
+        border-radius: 30px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .panel-estado.disponible,
+    .panel-estado.aprobada {
+        background: #dff8e9;
+        color: #157347;
+    }
+
+    .panel-estado.no-disponible,
+    .panel-estado.rechazada {
+        background: #fde8e7;
+        color: #a33434;
+    }
+
+    .panel-estado.pendiente {
+        background: #fff2d6;
+        color: #986000;
+    }
+
+    /* =====================================
+       MENSAJES Y ENLACES
+    ====================================== */
+
+    .panel-vacio {
+        color: #72827c;
+        padding: 15px 0;
+    }
+
+    .panel-enlace {
+        color: #087f69;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .panel-enlace:hover {
+        color: #055f4e;
+        text-decoration: underline;
+    }
+
+    /* =====================================
+       NUEVO: TARJETA DE MENSAJES
+    ====================================== */
+
+    .panel-mensajes {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 28px;
+        margin-bottom: 28px;
+        background: linear-gradient(135deg, #087f69, #0aa184);
+        border-radius: 20px;
+        color: white;
+        box-shadow: 0 8px 25px rgba(8, 127, 105, 0.12);
+    }
+
+    .panel-mensajes-info {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-width: 0;
+    }
+
+    .panel-mensajes-icono {
+        width: 65px;
+        height: 65px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.17);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+        flex-shrink: 0;
+    }
+
+    .panel-mensajes h2 {
+        color: white;
+        font-size: 21px;
+        margin: 0 0 9px;
+    }
+
+    .panel-mensajes p {
+        color: #e2fff5;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+    }
+
+    .panel-mensajes-boton {
+        display: inline-block;
+        padding: 13px 22px;
+        border-radius: 12px;
+        background: white;
+        color: #087f69;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: 0.2s;
+    }
+
+    .panel-mensajes-boton:hover {
+        background: #e1f7ee;
+        color: #066551;
+    }
+
+    /* =====================================
+       DISEÑO RESPONSIVO
+    ====================================== */
+
+    @media (max-width: 1100px) {
+        .panel-estadisticas {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 760px) {
+        .panel-admin {
+            grid-template-columns: 1fr;
+            padding: 0 14px;
+        }
+
+        .panel-lateral {
+            position: static;
+        }
+
+        .panel-estadisticas {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .panel-mensajes {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .panel-mensajes-boton {
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 430px) {
+        .panel-estadisticas {
+            grid-template-columns: 1fr;
+        }
+
+        .panel-mensajes-info {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+
+
+<div class="panel-admin">
+
+    <!-- =====================================
+         MENÚ LATERAL
+    ====================================== -->
+
+    <aside class="panel-lateral">
+
+        <h2>🐾 Administración</h2>
+        <p>HuellistasdeAmor</p>
+
+        <!-- PANEL PRINCIPAL -->
+
+        <a href="{% url 'panel_administrador' %}"
+           class="activo">
+            📊 Panel principal
+        </a>
+
+        <!-- AGREGAR MASCOTA -->
+
+        <a href="{% url 'agregar_mascota' %}">
+            🐶 Agregar mascota
+        </a>
+
+        <!-- GESTIONAR MASCOTAS -->
+
+        <a href="{% url 'gestionar_mascotas' %}">
+            🐾 Gestionar mascotas
+        </a>
+
+        <!-- GESTIONAR SOLICITUDES -->
+
+        <a href="{% url 'gestionar_solicitudes' %}">
+            ❤️ Gestionar solicitudes
+        </a>
+
+        <!-- GESTIONAR RESEÑAS -->
+
+        <a href="{% url 'gestionar_resenas' %}">
+            ⭐ Gestionar reseñas
+        </a>
+
+        <!-- GESTIONAR USUARIOS -->
+
+        <a href="{% url 'gestionar_usuarios' %}">
+            👥 Usuarios
+        </a>
+
+        <!-- NUEVO: MENSAJES DE USUARIOS -->
+
+        {% if user.is_superuser %}
+
+            <a href="{% url 'bandeja_mensajes' %}">
+                💬 Mensajes de usuarios
+            </a>
+
+        {% endif %}
+
+        <!-- VOLVER AL INICIO -->
+
+        <a href="{% url 'inicio' %}">
+            🏠 Volver al inicio
+        </a>
+
+    </aside>
+
+
+    <!-- =====================================
+         CONTENIDO PRINCIPAL
+    ====================================== -->
+
+    <section class="panel-contenido">
+
+        <!-- ENCABEZADO -->
+
+        <div class="panel-encabezado">
+
+            <div>
+                <h1>Panel administrativo</h1>
+
+                <p>
+                    Bienvenido,
+                    {{ user.first_name|default:user.username }}.
+                    Aquí puedes supervisar tu plataforma.
+                </p>
+            </div>
+
+            <a href="{% url 'agregar_mascota' %}"
+               class="panel-boton">
+                + Agregar mascota
+            </a>
+
+        </div>
+
+
+        <!-- =====================================
+             ESTADÍSTICAS
+        ====================================== -->
+
+        <div class="panel-estadisticas">
+
+            <div class="panel-estadistica">
+                <span class="icono">🐾</span>
+                <h3>Mascotas registradas</h3>
+                <strong>{{ total_mascotas }}</strong>
+            </div>
+
+            <div class="panel-estadistica">
+                <span class="icono">💚</span>
+                <h3>Mascotas disponibles</h3>
+                <strong>{{ mascotas_disponibles }}</strong>
+            </div>
+
+            <div class="panel-estadistica">
+                <span class="icono">❤️</span>
+                <h3>Solicitudes pendientes</h3>
+                <strong>{{ solicitudes_pendientes }}</strong>
+            </div>
+
+            <div class="panel-estadistica">
+                <span class="icono">👥</span>
+                <h3>Usuarios registrados</h3>
+                <strong>{{ total_usuarios }}</strong>
+            </div>
+
+            <div class="panel-estadistica">
+                <span class="icono">⭐</span>
+                <h3>Reseñas publicadas</h3>
+                <strong>{{ total_resenas }}</strong>
+            </div>
+
+            <div class="panel-estadistica">
+                <span class="icono">✅</span>
+                <h3>Solicitudes aprobadas</h3>
+                <strong>{{ solicitudes_aprobadas }}</strong>
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             NUEVO: ACCESO A MENSAJES
+        ====================================== -->
+
+        {% if user.is_superuser %}
+
+        <div class="panel-mensajes">
+
+            <div class="panel-mensajes-info">
+
+                <div class="panel-mensajes-icono">
+                    💬
+                </div>
+
+                <div>
+                    <h2>Mensajes de usuarios</h2>
+
+                    <p>
+                        Revisa las conversaciones,
+                        responde las dudas de los usuarios
+                        y mantente en contacto con
+                        quienes desean adoptar.
+                    </p>
+                </div>
+
+            </div>
+
+            <a href="{% url 'bandeja_mensajes' %}"
+               class="panel-mensajes-boton">
+                Ver mensajes →
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =====================================
+             ÚLTIMAS MASCOTAS REGISTRADAS
+        ====================================== -->
+
+        <div class="panel-seccion">
+
+            <div class="panel-seccion-encabezado">
+
+                <h2>🐶 Últimas mascotas registradas</h2>
+
+                <a href="{% url 'gestionar_mascotas' %}"
+                   class="panel-enlace">
+                    Ver todas
+                </a>
+
+            </div>
+
+            {% if ultimas_mascotas %}
+
+                <div class="panel-tabla-contenedor">
+
+                    <table class="panel-tabla">
+
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Especie</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for mascota in ultimas_mascotas %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ mascota.nombre }}
+                                    </td>
+
+                                    <td>
+                                        {{ mascota.especie }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if mascota.disponible %}
+
+                                            <span class="panel-estado disponible">
+                                                Disponible
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="panel-estado no-disponible">
+                                                No disponible
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p class="panel-vacio">
+                    Todavía no hay mascotas registradas.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================
+             SOLICITUDES DE ADOPCIÓN RECIENTES
+        ====================================== -->
+
+        <div class="panel-seccion">
+
+            <div class="panel-seccion-encabezado">
+
+                <h2>❤️ Solicitudes de adopción recientes</h2>
+
+                <a href="{% url 'gestionar_solicitudes' %}"
+                   class="panel-enlace">
+                    Ver todas las solicitudes
+                </a>
+
+            </div>
+
+            {% if ultimas_solicitudes %}
+
+                <div class="panel-tabla-contenedor">
+
+                    <table class="panel-tabla">
+
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Mascota</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for solicitud in ultimas_solicitudes %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ solicitud.usuario.username }}
+                                    </td>
+
+                                    <td>
+                                        {{ solicitud.mascota.nombre }}
+                                    </td>
+
+                                    <td>
+
+                                        {% if solicitud.estado == 'Pendiente' %}
+
+                                            <span class="panel-estado pendiente">
+                                                Pendiente
+                                            </span>
+
+                                        {% elif solicitud.estado == 'Aprobada' %}
+
+                                            <span class="panel-estado aprobada">
+                                                Aprobada
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="panel-estado rechazada">
+                                                Rechazada
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <td>
+                                        {{ solicitud.fecha|date:"d/m/Y" }}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p class="panel-vacio">
+                    Todavía no hay solicitudes de adopción.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+

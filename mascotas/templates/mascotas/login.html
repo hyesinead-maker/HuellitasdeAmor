@@ -1,0 +1,123 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Iniciar sesión | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+     SECCIÓN DE INICIO DE SESIÓN
+====================================== -->
+
+<section class="login-seccion">
+
+    <div class="login-contenedor">
+
+        <!-- ENCABEZADO -->
+
+        <div class="login-encabezado">
+
+            <div class="login-icono">
+                🐾
+            </div>
+
+            <h1>¡Bienvenido de nuevo!</h1>
+
+            <p>
+                Inicia sesión para continuar formando
+                parte de HuellistasdeAmor.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             FORMULARIO DE INICIO DE SESIÓN
+        ====================================== -->
+
+        <form method="POST" class="login-formulario">
+
+            {% csrf_token %}
+
+
+            <!-- NOMBRE DE USUARIO -->
+
+            <div class="grupo-formulario">
+
+                <label for="username">
+                    👤 Nombre de usuario
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Escribe tu usuario"
+                    value="{{ request.POST.username|default:'' }}"
+                    autocomplete="username"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CONTRASEÑA -->
+
+            <div class="grupo-formulario">
+
+                <label for="password">
+                    🔒 Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Escribe tu contraseña"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BOTÓN DE INICIO DE SESIÓN -->
+
+            <button
+                type="submit"
+                class="boton-registro"
+            >
+                Iniciar sesión 🐾
+            </button>
+
+        </form>
+
+
+        <!-- =====================================
+             PIE DEL LOGIN
+        ====================================== -->
+
+        <div class="login-pie">
+
+            <p>
+                ¿Todavía no tienes una cuenta?
+
+                <a href="{% url 'registro' %}">
+                    Regístrate aquí 💚
+                </a>
+            </p>
+
+            <a href="{% url 'inicio' %}">
+                ← Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

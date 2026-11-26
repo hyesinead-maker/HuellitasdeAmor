@@ -1,0 +1,496 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Gestionar mascotas | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .gestion-contenedor {
+        max-width: 1250px;
+        margin: 35px auto 70px;
+        padding: 0 22px;
+    }
+
+    .gestion-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-bottom: 28px;
+    }
+
+    .gestion-encabezado h1 {
+        color: #087f69;
+        font-size: 30px;
+        margin: 0 0 8px;
+    }
+
+    .gestion-encabezado p {
+        color: #64748b;
+        margin: 0;
+    }
+
+    .gestion-boton {
+        display: inline-block;
+        background: #087f69;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 11px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .gestion-boton:hover {
+        background: #056653;
+        color: white;
+    }
+
+    /* ESTADÍSTICAS */
+
+    .gestion-estadisticas {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .gestion-estadistica {
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.04);
+    }
+
+    .gestion-estadistica span {
+        display: block;
+        color: #64748b;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .gestion-estadistica strong {
+        font-size: 32px;
+        color: #087f69;
+    }
+
+    /* TABLA DE MASCOTAS */
+
+    .gestion-tabla-contenedor {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.04);
+    }
+
+    .gestion-tabla-scroll {
+        overflow-x: auto;
+    }
+
+    .gestion-tabla {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+    .gestion-tabla th {
+        text-align: left;
+        padding: 17px;
+        background: #e9f8f3;
+        color: #087f69;
+        font-size: 14px;
+    }
+
+    .gestion-tabla td {
+        padding: 16px;
+        border-bottom: 1px solid #edf2f7;
+        vertical-align: middle;
+        color: #334155;
+    }
+
+    .gestion-tabla tbody tr:hover {
+        background: #f8fcfa;
+    }
+
+    /* FOTOGRAFÍAS */
+
+    .gestion-foto {
+        width: 65px;
+        height: 65px;
+        object-fit: cover;
+        border-radius: 12px;
+        background: #e9f8f3;
+    }
+
+    .gestion-sin-foto {
+        width: 65px;
+        height: 65px;
+        border-radius: 12px;
+        background: #e9f8f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 29px;
+    }
+
+    .gestion-nombre {
+        font-weight: 700;
+        color: #173f37;
+    }
+
+    /* ESTADO DE DISPONIBILIDAD */
+
+    .gestion-estado {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .gestion-disponible {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .gestion-no-disponible {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* ACCIONES DE MASCOTAS */
+
+    .gestion-acciones {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    /* BOTÓN VER MASCOTA */
+
+    .gestion-ver {
+        display: inline-block;
+        background: #e0f2fe;
+        color: #075985;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .gestion-ver:hover {
+        background: #bae6fd;
+        color: #075985;
+    }
+
+    /* BOTÓN EDITAR MASCOTA */
+
+    .gestion-editar {
+        display: inline-block;
+        background: #dcfce7;
+        color: #166534;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .gestion-editar:hover {
+        background: #bbf7d0;
+        color: #14532d;
+    }
+
+    /* BOTÓN ELIMINAR MASCOTA */
+
+    .gestion-eliminar {
+        display: inline-block;
+        background: #fee2e2;
+        color: #991b1b;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    .gestion-eliminar:hover {
+        background: #fecaca;
+        color: #7f1d1d;
+    }
+
+    /* MENSAJE CUANDO NO HAY MASCOTAS */
+
+    .gestion-vacio {
+        text-align: center;
+        padding: 60px 20px;
+        color: #64748b;
+    }
+
+    .gestion-vacio-icono {
+        font-size: 50px;
+        margin-bottom: 15px;
+    }
+
+    /* REGRESAR AL PANEL */
+
+    .gestion-regresar {
+        display: inline-block;
+        margin-top: 25px;
+        color: #087f69;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .gestion-regresar:hover {
+        color: #056653;
+    }
+
+    /* DISEÑO RESPONSIVO */
+
+    @media (max-width: 768px) {
+        .gestion-estadisticas {
+            grid-template-columns: 1fr;
+        }
+
+        .gestion-encabezado h1 {
+            font-size: 25px;
+        }
+
+        .gestion-contenedor {
+            padding: 0 15px;
+        }
+    }
+</style>
+
+
+<div class="gestion-contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="gestion-encabezado">
+
+        <div>
+            <h1>🐾 Gestionar mascotas</h1>
+
+            <p>
+                Administra las mascotas registradas
+                en HuellistasdeAmor.
+            </p>
+        </div>
+
+        <a href="{% url 'agregar_mascota' %}"
+           class="gestion-boton">
+            + Agregar mascota
+        </a>
+
+    </div>
+
+
+    <!-- ESTADÍSTICAS -->
+
+    <div class="gestion-estadisticas">
+
+        <div class="gestion-estadistica">
+            <span>🐾 Total de mascotas</span>
+            <strong>{{ total_mascotas }}</strong>
+        </div>
+
+        <div class="gestion-estadistica">
+            <span>💚 Disponibles</span>
+            <strong>{{ mascotas_disponibles }}</strong>
+        </div>
+
+        <div class="gestion-estadistica">
+            <span>🏡 No disponibles</span>
+            <strong>{{ mascotas_no_disponibles }}</strong>
+        </div>
+
+    </div>
+
+
+    <!-- TABLA DE MASCOTAS -->
+
+    <div class="gestion-tabla-contenedor">
+
+        {% if mascotas %}
+
+        <div class="gestion-tabla-scroll">
+
+            <table class="gestion-tabla">
+
+                <thead>
+                    <tr>
+                        <th>Fotografía</th>
+                        <th>Nombre</th>
+                        <th>Especie</th>
+                        <th>Raza</th>
+                        <th>Edad</th>
+                        <th>Disponibilidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for mascota in mascotas %}
+
+                    <tr>
+
+                        <!-- FOTOGRAFÍA -->
+
+                        <td>
+                            {% if mascota.foto %}
+
+                                <img
+                                    src="{{ mascota.foto.url }}"
+                                    alt="Fotografía de {{ mascota.nombre }}"
+                                    class="gestion-foto">
+
+                            {% else %}
+
+                                <div class="gestion-sin-foto">
+                                    🐾
+                                </div>
+
+                            {% endif %}
+                        </td>
+
+                        <!-- NOMBRE -->
+
+                        <td>
+                            <span class="gestion-nombre">
+                                {{ mascota.nombre }}
+                            </span>
+                        </td>
+
+                        <!-- ESPECIE -->
+
+                        <td>
+                            {{ mascota.especie }}
+                        </td>
+
+                        <!-- RAZA -->
+
+                        <td>
+                            {{ mascota.raza|default:"Sin especificar" }}
+                        </td>
+
+                        <!-- EDAD -->
+
+                        <td>
+                            {{ mascota.edad }} meses
+                        </td>
+
+                        <!-- DISPONIBILIDAD -->
+
+                        <td>
+                            {% if mascota.disponible %}
+
+                                <span class="gestion-estado gestion-disponible">
+                                    Disponible
+                                </span>
+
+                            {% else %}
+
+                                <span class="gestion-estado gestion-no-disponible">
+                                    No disponible
+                                </span>
+
+                            {% endif %}
+                        </td>
+
+                        <!-- ACCIONES -->
+
+                        <td>
+
+                            <div class="gestion-acciones">
+
+                                <!-- VER MASCOTA -->
+
+                                <a href="{% url 'detalle_mascota' mascota.id %}"
+                                   class="gestion-ver">
+                                    👁 Ver
+                                </a>
+
+                                <!-- EDITAR MASCOTA -->
+
+                                <a href="{% url 'editar_mascota' mascota.id %}"
+                                   class="gestion-editar">
+                                    ✏️ Editar
+                                </a>
+
+                                <!-- ELIMINAR MASCOTA -->
+
+                                <a href="{% url 'eliminar_mascota' mascota.id %}"
+                                   class="gestion-eliminar">
+                                    🗑️ Eliminar
+                                </a>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <!-- SIN MASCOTAS REGISTRADAS -->
+
+        <div class="gestion-vacio">
+
+            <div class="gestion-vacio-icono">
+                🐶
+            </div>
+
+            <h3>Todavía no hay mascotas registradas</h3>
+
+            <p>
+                Comienza agregando una mascota
+                a nuestro sistema.
+            </p>
+
+            <a href="{% url 'agregar_mascota' %}"
+               class="gestion-boton">
+                Agregar primera mascota
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- REGRESAR AL PANEL -->
+
+    <a href="{% url 'panel_administrador' %}"
+       class="gestion-regresar">
+        ← Volver al panel administrativo
+    </a>
+
+</div>
+
+{% endblock %}

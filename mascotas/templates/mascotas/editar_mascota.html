@@ -1,0 +1,398 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Editar {{ mascota.nombre }} | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .editar-contenedor {
+        max-width: 850px;
+        margin: 40px auto 70px;
+        padding: 0 20px;
+    }
+
+    .editar-encabezado {
+        margin-bottom: 25px;
+    }
+
+    .editar-encabezado h1 {
+        color: #087f69;
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .editar-encabezado p {
+        color: #64748b;
+        font-size: 15px;
+    }
+
+    .editar-tarjeta {
+        background: white;
+        border: 1px solid #dceee7;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .editar-mascota-actual {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: #effaf6;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .editar-foto {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+    .editar-foto-vacia {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #d7f5ed;
+        border-radius: 15px;
+        font-size: 40px;
+    }
+
+    .editar-mascota-actual h2 {
+        color: #155d50;
+        margin: 0 0 8px;
+        font-size: 23px;
+    }
+
+    .editar-mascota-actual p {
+        color: #64748b;
+        margin: 0;
+    }
+
+    .editar-campo {
+        margin-bottom: 22px;
+    }
+
+    .editar-campo label {
+        display: block;
+        color: #155d50;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    .editar-campo input[type="text"],
+    .editar-campo input[type="number"],
+    .editar-campo input[type="file"],
+    .editar-campo select,
+    .editar-campo textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 15px;
+        border: 1px solid #cbded6;
+        border-radius: 10px;
+        background: #fff;
+        font-size: 15px;
+        color: #334155;
+    }
+
+    .editar-campo textarea {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .editar-campo input:focus,
+    .editar-campo select:focus,
+    .editar-campo textarea:focus {
+        outline: none;
+        border-color: #087f69;
+        box-shadow: 0 0 0 3px rgba(8, 127, 105, 0.12);
+    }
+
+    .editar-checkbox {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px;
+        background: #effaf6;
+        border-radius: 10px;
+    }
+
+    .editar-checkbox label {
+        margin: 0;
+        cursor: pointer;
+    }
+
+    .editar-checkbox input {
+        width: 18px;
+        height: 18px;
+        accent-color: #087f69;
+    }
+
+    .editar-ayuda {
+        display: block;
+        color: #64748b;
+        font-size: 13px;
+        margin-top: 7px;
+    }
+
+    .editar-error {
+        color: #b91c1c;
+        font-size: 13px;
+        margin-top: 7px;
+    }
+
+    .editar-alerta {
+        background: #fff7ed;
+        color: #9a3412;
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        border: 1px solid #fed7aa;
+    }
+
+    .editar-botones {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .editar-guardar {
+        background: #087f69;
+        color: white;
+        border: none;
+        padding: 14px 25px;
+        border-radius: 11px;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .editar-guardar:hover {
+        background: #066551;
+    }
+
+    .editar-cancelar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 25px;
+        background: #e2e8f0;
+        color: #334155;
+        border-radius: 11px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .editar-cancelar:hover {
+        background: #cbd5e1;
+    }
+
+    @media (max-width: 600px) {
+        .editar-tarjeta {
+            padding: 22px;
+        }
+
+        .editar-mascota-actual {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .editar-botones {
+            flex-direction: column;
+        }
+
+        .editar-guardar,
+        .editar-cancelar {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<div class="editar-contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="editar-encabezado">
+
+        <h1>✏️ Editar mascota</h1>
+
+        <p>
+            Actualiza la información de
+            <strong>{{ mascota.nombre }}</strong>.
+        </p>
+
+    </div>
+
+
+    <div class="editar-tarjeta">
+
+        <!-- INFORMACIÓN ACTUAL -->
+
+        <div class="editar-mascota-actual">
+
+            {% if mascota.foto %}
+
+                <img
+                    src="{{ mascota.foto.url }}"
+                    alt="Fotografía de {{ mascota.nombre }}"
+                    class="editar-foto">
+
+            {% else %}
+
+                <div class="editar-foto-vacia">
+                    🐾
+                </div>
+
+            {% endif %}
+
+            <div>
+                <h2>{{ mascota.nombre }}</h2>
+
+                <p>
+                    {{ mascota.especie }} ·
+                    {{ mascota.raza|default:"Sin raza especificada" }}
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if tiene_adopcion_aprobada %}
+
+            <div class="editar-alerta">
+
+                ⚠️ Esta mascota tiene una adopción aprobada.
+
+                Puedes actualizar su información,
+                pero permanecerá como no disponible
+                para evitar nuevas solicitudes.
+
+            </div>
+
+        {% endif %}
+
+
+        <!-- FORMULARIO -->
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {% if formulario.non_field_errors %}
+
+                <div class="editar-alerta">
+                    {{ formulario.non_field_errors }}
+                </div>
+
+            {% endif %}
+
+
+            {% for campo in formulario %}
+
+                <div class="editar-campo">
+
+                    {% if campo.name == 'disponible' %}
+
+                        {% if tiene_adopcion_aprobada %}
+
+                            <div class="editar-checkbox">
+
+                                <input type="checkbox"
+                                       disabled>
+
+                                <label>
+                                    Disponible para adopción
+                                </label>
+
+                            </div>
+
+                            <small class="editar-ayuda">
+                                No se puede activar porque
+                                ya existe una adopción aprobada.
+                            </small>
+
+                        {% else %}
+
+                            <div class="editar-checkbox">
+
+                                {{ campo }}
+
+                                <label for="{{ campo.id_for_label }}">
+                                    Disponible para adopción
+                                </label>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <label for="{{ campo.id_for_label }}">
+                            {{ campo.label }}
+                        </label>
+
+                        {{ campo }}
+
+                    {% endif %}
+
+
+                    {% if campo.help_text %}
+
+                        <small class="editar-ayuda">
+                            {{ campo.help_text }}
+                        </small>
+
+                    {% endif %}
+
+
+                    {% for error in campo.errors %}
+
+                        <div class="editar-error">
+                            {{ error }}
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- BOTONES -->
+
+            <div class="editar-botones">
+
+                <button type="submit"
+                        class="editar-guardar">
+
+                    💾 Guardar cambios
+
+                </button>
+
+                <a href="{% url 'gestionar_mascotas' %}"
+                   class="editar-cancelar">
+
+                    Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

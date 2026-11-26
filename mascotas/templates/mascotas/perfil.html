@@ -1,0 +1,846 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Mi perfil | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    /* =====================================
+       ESTILOS DEL PERFIL
+    ====================================== */
+
+    .perfil-contenedor {
+        max-width: 1200px;
+        margin: 35px auto 75px;
+        padding: 0 22px;
+    }
+
+    .perfil-contenedor .perfil-encabezado {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+        background: linear-gradient(135deg, #087f69, #16a085);
+        padding: 35px;
+        border-radius: 22px;
+        color: white;
+        margin-bottom: 32px;
+    }
+
+    .perfil-contenedor .perfil-avatar {
+        width: 90px;
+        height: 90px;
+        min-width: 90px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.20);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 43px;
+    }
+
+    .perfil-contenedor .perfil-bienvenida h1 {
+        color: white;
+        font-size: 29px;
+        margin: 10px 0;
+    }
+
+    .perfil-contenedor .perfil-bienvenida p {
+        color: #e7fff6;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .perfil-contenedor .etiqueta {
+        display: inline-block;
+        background: rgba(255,255,255,0.18);
+        padding: 7px 13px;
+        border-radius: 30px;
+        font-size: 13px;
+    }
+
+    /* =====================================
+       SECCIONES
+    ====================================== */
+
+    .perfil-contenedor .perfil-seccion {
+        margin-bottom: 38px;
+    }
+
+    .perfil-contenedor .perfil-seccion h2 {
+        color: #087f69;
+        font-size: 23px;
+        margin-bottom: 20px;
+    }
+
+    .perfil-contenedor .perfil-tarjeta {
+        background: white;
+        border: 1px solid #e1eee9;
+        border-radius: 17px;
+        padding: 24px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.035);
+    }
+
+    /* =====================================
+       INFORMACIÓN PERSONAL
+    ====================================== */
+
+    .perfil-contenedor .perfil-datos {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .perfil-contenedor .perfil-dato strong {
+        color: #087f69;
+        font-size: 13px;
+    }
+
+    .perfil-contenedor .perfil-dato p {
+        color: #334155;
+        margin: 7px 0 0;
+        overflow-wrap: anywhere;
+    }
+
+    /* =====================================
+       BOTONES DE CONFIGURACIÓN DEL PERFIL
+    ====================================== */
+
+    .perfil-contenedor .perfil-editar-encabezado {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .perfil-contenedor .perfil-editar-encabezado h2 {
+        margin: 0;
+    }
+
+    .perfil-contenedor .perfil-botones-configuracion {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .perfil-contenedor .boton-editar-perfil,
+    .perfil-contenedor .boton-cambiar-contrasena {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .perfil-contenedor .boton-editar-perfil {
+        background: #087f69;
+        color: white;
+    }
+
+    .perfil-contenedor .boton-editar-perfil:hover {
+        background: #066551;
+        color: white;
+    }
+
+    .perfil-contenedor .boton-cambiar-contrasena {
+        background: #e0f2fe;
+        color: #075985;
+        border: 1px solid #bae6fd;
+    }
+
+    .perfil-contenedor .boton-cambiar-contrasena:hover {
+        background: #bae6fd;
+        color: #075985;
+    }
+
+    /* =====================================
+       LISTADOS
+    ====================================== */
+
+    .perfil-contenedor .perfil-listado {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    /* =====================================
+       SOLICITUDES DE ADOPCIÓN
+    ====================================== */
+
+    .perfil-contenedor .solicitud-tarjeta {
+        overflow: hidden;
+    }
+
+    .perfil-contenedor .solicitud-superior {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 18px;
+    }
+
+    .perfil-contenedor .solicitud-foto {
+        width: 85px;
+        height: 85px;
+        object-fit: cover;
+        border-radius: 13px;
+        background: #e9f8f3;
+        flex-shrink: 0;
+    }
+
+    .perfil-contenedor .solicitud-sin-foto {
+        width: 85px;
+        height: 85px;
+        border-radius: 13px;
+        background: #e9f8f3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 37px;
+        flex-shrink: 0;
+    }
+
+    .perfil-contenedor .solicitud-nombre h3 {
+        color: #155d50;
+        margin: 0 0 8px;
+        font-size: 20px;
+    }
+
+    .perfil-contenedor .solicitud-fecha {
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    /* =====================================
+       ESTADOS DE SOLICITUDES
+    ====================================== */
+
+    .perfil-contenedor .solicitud-estado {
+        display: inline-block;
+        padding: 8px 13px;
+        border-radius: 25px;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .perfil-contenedor .estado-pendiente {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .perfil-contenedor .estado-aprobada {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .perfil-contenedor .estado-rechazada {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    /* =====================================
+       MENSAJES DE ESTADO
+    ====================================== */
+
+    .perfil-contenedor .solicitud-aviso {
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .perfil-contenedor .aviso-pendiente {
+        background: #fffbeb;
+        color: #92400e;
+    }
+
+    .perfil-contenedor .aviso-aprobada {
+        background: #f0fdf4;
+        color: #166534;
+    }
+
+    .perfil-contenedor .aviso-rechazada {
+        background: #fef2f2;
+        color: #991b1b;
+    }
+
+    /* =====================================
+       MOTIVO DE ADOPCIÓN
+    ====================================== */
+
+    .perfil-contenedor .solicitud-motivo {
+        background: #f8fafc;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 18px;
+    }
+
+    .perfil-contenedor .solicitud-motivo strong {
+        color: #155d50;
+        font-size: 13px;
+    }
+
+    .perfil-contenedor .solicitud-motivo p {
+        color: #475569;
+        font-size: 13px;
+        line-height: 1.7;
+        margin: 8px 0 0;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    /* =====================================
+       BOTONES
+    ====================================== */
+
+    .perfil-contenedor .boton-detalles,
+    .perfil-contenedor .boton-principal,
+    .perfil-contenedor .boton-publicar-resena {
+        display: inline-block;
+        background: #087f69;
+        color: white;
+        padding: 11px 16px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .perfil-contenedor .boton-detalles:hover,
+    .perfil-contenedor .boton-principal:hover,
+    .perfil-contenedor .boton-publicar-resena:hover {
+        background: #066551;
+        color: white;
+    }
+
+    /* =====================================
+       RESEÑAS
+    ====================================== */
+
+    .perfil-contenedor .perfil-titulo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .perfil-contenedor .perfil-titulo h2 {
+        margin: 0;
+    }
+
+    .perfil-contenedor .resena-tarjeta h3 {
+        color: #155d50;
+        margin: 10px 0;
+    }
+
+    .perfil-contenedor .resena-tarjeta p {
+        color: #475569;
+        line-height: 1.7;
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-contenedor .estrellas {
+        color: #d97706;
+        font-weight: 700;
+    }
+
+    .perfil-contenedor .resena-fecha {
+        color: #64748b;
+        font-size: 12px;
+    }
+
+    .perfil-contenedor .acciones-resena {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .perfil-contenedor .boton-editar-resena,
+    .perfil-contenedor .boton-eliminar-resena {
+        display: inline-block;
+        padding: 10px 14px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .perfil-contenedor .boton-editar-resena {
+        background: #e0f2fe;
+        color: #075985;
+    }
+
+    .perfil-contenedor .boton-eliminar-resena {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .perfil-contenedor .boton-editar-resena:hover {
+        background: #bae6fd;
+    }
+
+    .perfil-contenedor .boton-eliminar-resena:hover {
+        background: #fecaca;
+    }
+
+    /* =====================================
+       ESTADO VACÍO
+    ====================================== */
+
+    .perfil-contenedor .perfil-vacio {
+        grid-column: 1 / -1;
+        text-align: center;
+        background: white;
+        border: 1px dashed #b7dcd0;
+        border-radius: 16px;
+        padding: 35px;
+    }
+
+    .perfil-contenedor .perfil-vacio p {
+        color: #64748b;
+        margin-bottom: 18px;
+    }
+
+    /* =====================================
+       DISEÑO RESPONSIVO
+    ====================================== */
+
+    @media (max-width: 800px) {
+        .perfil-contenedor .perfil-listado,
+        .perfil-contenedor .perfil-datos {
+            grid-template-columns: 1fr;
+        }
+
+        .perfil-contenedor .perfil-encabezado {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .perfil-contenedor {
+            padding: 0 15px;
+        }
+
+        .perfil-contenedor .perfil-encabezado {
+            padding: 25px 18px;
+        }
+
+        .perfil-contenedor .perfil-bienvenida h1 {
+            font-size: 24px;
+        }
+
+        .perfil-contenedor .solicitud-superior {
+            align-items: flex-start;
+        }
+
+        .perfil-contenedor .perfil-botones-configuracion {
+            width: 100%;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .perfil-contenedor .boton-editar-perfil,
+        .perfil-contenedor .boton-cambiar-contrasena {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+</style>
+
+
+<div class="perfil-contenedor">
+
+    <!-- =====================================
+         ENCABEZADO DEL PERFIL
+    ====================================== -->
+
+    <section class="perfil-encabezado">
+
+        <div class="perfil-avatar">
+            👤
+        </div>
+
+        <div class="perfil-bienvenida">
+
+            <span class="etiqueta">
+                🐾 Mi espacio personal
+            </span>
+
+            <h1>
+                ¡Hola, {{ user.first_name|default:user.username }}!
+            </h1>
+
+            <p>
+                Bienvenido a tu perfil de HuellistasdeAmor.
+                Aquí puedes consultar tu información,
+                tus solicitudes de adopción y tus reseñas.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         INFORMACIÓN PERSONAL
+    ====================================== -->
+
+    <section class="perfil-seccion">
+
+        <!-- ENCABEZADO CON LOS DOS BOTONES -->
+
+        <div class="perfil-editar-encabezado">
+
+            <h2>👤 Mi información personal</h2>
+
+            <div class="perfil-botones-configuracion">
+
+                <a
+                    href="{% url 'editar_perfil' %}"
+                    class="boton-editar-perfil"
+                >
+                    ✏️ Editar mi perfil
+                </a>
+
+                <a
+                    href="{% url 'cambiar_contrasena' %}"
+                    class="boton-cambiar-contrasena"
+                >
+                    🔒 Cambiar contraseña
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- DATOS PERSONALES -->
+
+        <div class="perfil-tarjeta">
+
+            <div class="perfil-datos">
+
+                <div class="perfil-dato">
+                    <strong>Nombre</strong>
+                    <p>
+                        {{ user.first_name|default:"No registrado" }}
+                    </p>
+                </div>
+
+                <div class="perfil-dato">
+                    <strong>Apellidos</strong>
+                    <p>
+                        {{ user.last_name|default:"No registrados" }}
+                    </p>
+                </div>
+
+                <div class="perfil-dato">
+                    <strong>Nombre de usuario</strong>
+                    <p>{{ user.username }}</p>
+                </div>
+
+                <div class="perfil-dato">
+                    <strong>Correo electrónico</strong>
+                    <p>
+                        {{ user.email|default:"No registrado" }}
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         SOLICITUDES DE ADOPCIÓN
+    ====================================== -->
+
+    <section class="perfil-seccion">
+
+        <h2>🐶 Mis solicitudes de adopción</h2>
+
+        <div class="perfil-listado">
+
+            {% for solicitud in solicitudes %}
+
+                <article class="perfil-tarjeta solicitud-tarjeta">
+
+                    <!-- INFORMACIÓN DE LA MASCOTA -->
+
+                    <div class="solicitud-superior">
+
+                        {% if solicitud.mascota.foto %}
+
+                            <img
+                                src="{{ solicitud.mascota.foto.url }}"
+                                alt="Fotografía de {{ solicitud.mascota.nombre }}"
+                                class="solicitud-foto"
+                            >
+
+                        {% else %}
+
+                            <div class="solicitud-sin-foto">
+                                🐾
+                            </div>
+
+                        {% endif %}
+
+                        <div class="solicitud-nombre">
+
+                            <h3>
+                                {{ solicitud.mascota.nombre }}
+                            </h3>
+
+                            <div class="solicitud-fecha">
+                                📅 Solicitada el
+                                {{ solicitud.fecha|date:"d/m/Y" }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESTADO DE LA SOLICITUD -->
+
+                    {% if solicitud.estado == "Aprobada" %}
+
+                        <span class="solicitud-estado estado-aprobada">
+                            ✓ Adopción aprobada
+                        </span>
+
+                        <div class="solicitud-aviso aviso-aprobada">
+                            💚 ¡Felicidades! Tu solicitud de adopción
+                            fue aprobada. El equipo de HuellistasdeAmor
+                            podrá continuar contigo el proceso de adopción.
+                        </div>
+
+                    {% elif solicitud.estado == "Rechazada" %}
+
+                        <span class="solicitud-estado estado-rechazada">
+                            ✕ Solicitud rechazada
+                        </span>
+
+                        <div class="solicitud-aviso aviso-rechazada">
+                            Tu solicitud de adopción no fue aprobada.
+                            Puedes conocer otras mascotas disponibles
+                            que están buscando un hogar.
+                        </div>
+
+                    {% else %}
+
+                        <span class="solicitud-estado estado-pendiente">
+                            ⏳ Solicitud pendiente
+                        </span>
+
+                        <div class="solicitud-aviso aviso-pendiente">
+                            Tu solicitud fue enviada correctamente
+                            y está esperando la revisión
+                            del administrador.
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- MOTIVO DE ADOPCIÓN -->
+
+                    {% if solicitud.mensaje %}
+
+                        <div class="solicitud-motivo">
+
+                            <strong>
+                                📝 Mi motivo de adopción
+                            </strong>
+
+                            <p>{{ solicitud.mensaje }}</p>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- ENLACES -->
+
+                    {% if solicitud.mascota.disponible %}
+
+                        <a
+                            href="{% url 'detalle_mascota' solicitud.mascota.id %}"
+                            class="boton-detalles"
+                        >
+                            🐾 Ver mascota
+                        </a>
+
+                    {% elif solicitud.estado == "Rechazada" %}
+
+                        <a
+                            href="{% url 'catalogo' %}"
+                            class="boton-detalles"
+                        >
+                            🐶 Conocer otras mascotas
+                        </a>
+
+                    {% endif %}
+
+                </article>
+
+            {% empty %}
+
+                <div class="perfil-vacio">
+
+                    <p>
+                        🐾 Todavía no has solicitado
+                        ninguna adopción.
+                    </p>
+
+                    <a
+                        href="{% url 'catalogo' %}"
+                        class="boton-principal"
+                    >
+                        Conocer mascotas
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================
+         RESEÑAS DEL USUARIO
+    ====================================== -->
+
+    <section class="perfil-seccion">
+
+        <div class="perfil-titulo">
+
+            <h2>⭐ Mis reseñas</h2>
+
+            <!-- BOTÓN PARA PUBLICAR RESEÑA -->
+
+            {% if not user.is_staff and not user.is_superuser %}
+
+                <a
+                    href="{% url 'crear_resena' %}"
+                    class="boton-publicar-resena"
+                >
+                    ⭐ Publicar reseña
+                </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- LISTADO DE RESEÑAS -->
+
+        <div class="perfil-listado">
+
+            {% for resena in resenas %}
+
+                <article class="perfil-tarjeta resena-tarjeta">
+
+                    <!-- CALIFICACIÓN -->
+
+                    <div class="estrellas">
+                        ⭐ {{ resena.calificacion }}/5
+                    </div>
+
+                    <!-- TÍTULO -->
+
+                    <h3>{{ resena.titulo }}</h3>
+
+                    <!-- COMENTARIO -->
+
+                    <p>{{ resena.comentario }}</p>
+
+                    <!-- FECHA -->
+
+                    <small class="resena-fecha">
+                        Publicada el
+                        {{ resena.fecha|date:"d/m/Y" }}
+                    </small>
+
+
+                    <!-- ACCIONES DE RESEÑAS -->
+
+                    <div class="acciones-resena">
+
+                        {% if resena.usuario_id == user.id or user.is_staff or user.is_superuser %}
+
+                            <!-- EDITAR RESEÑA -->
+
+                            <a
+                                href="{% url 'editar_resena' resena.id %}"
+                                class="boton-editar-resena"
+                            >
+                                ✏️ Editar reseña
+                            </a>
+
+                            <!-- ELIMINAR RESEÑA -->
+
+                            <a
+                                href="{% url 'eliminar_resena' resena.id %}"
+                                class="boton-eliminar-resena"
+                            >
+                                🗑️ Eliminar reseña
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="perfil-vacio">
+
+                    <p>
+                        💚 Todavía no has publicado
+                        ninguna reseña.
+                    </p>
+
+                    {% if not user.is_staff and not user.is_superuser %}
+
+                        <a
+                            href="{% url 'crear_resena' %}"
+                            class="boton-publicar-resena"
+                        >
+                            ⭐ Publicar mi primera reseña
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+

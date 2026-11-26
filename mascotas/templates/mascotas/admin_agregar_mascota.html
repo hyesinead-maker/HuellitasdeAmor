@@ -1,0 +1,209 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block content %}
+
+<style>
+    .admin-mascota-contenedor {
+        max-width: 850px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .admin-mascota-tarjeta {
+        background: white;
+        padding: 40px;
+        border-radius: 22px;
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e3f1ed;
+    }
+
+    .admin-mascota-encabezado {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .admin-mascota-encabezado h1 {
+        color: #218b78;
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .admin-mascota-encabezado p {
+        color: #667782;
+        font-size: 15px;
+    }
+
+    .admin-mascota-campo {
+        margin-bottom: 22px;
+    }
+
+    .admin-mascota-campo label {
+        display: block;
+        font-weight: 600;
+        color: #344c48;
+        margin-bottom: 8px;
+    }
+
+    .admin-mascota-campo input:not([type="checkbox"]),
+    .admin-mascota-campo select,
+    .admin-mascota-campo textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #cbded8;
+        border-radius: 10px;
+        background: #f9fcfb;
+        font-size: 15px;
+        box-sizing: border-box;
+    }
+
+    .admin-mascota-campo input:focus,
+    .admin-mascota-campo select:focus,
+    .admin-mascota-campo textarea:focus {
+        outline: none;
+        border-color: #39aa96;
+    }
+
+    .admin-mascota-campo textarea {
+        resize: vertical;
+    }
+
+    .admin-mascota-error {
+        color: #b42318;
+        font-size: 13px;
+        margin-top: 6px;
+    }
+
+    .admin-mascota-disponible {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .admin-mascota-disponible label {
+        color: #344c48;
+        font-weight: 600;
+    }
+
+    .admin-mascota-botones {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .admin-mascota-guardar,
+    .admin-mascota-cancelar {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .admin-mascota-guardar {
+        background: #218b78;
+        color: white;
+        border: none;
+    }
+
+    .admin-mascota-guardar:hover {
+        background: #176d5e;
+    }
+
+    .admin-mascota-cancelar {
+        background: #eef4f2;
+        color: #40544e;
+        border: 1px solid #d6e3de;
+    }
+
+    @media (max-width: 600px) {
+        .admin-mascota-tarjeta {
+            padding: 22px;
+        }
+
+        .admin-mascota-botones {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="admin-mascota-contenedor">
+
+    <div class="admin-mascota-tarjeta">
+
+        <div class="admin-mascota-encabezado">
+            <h1>🐾 Agregar nueva mascota</h1>
+            <p>
+                Registra una mascota para que pueda
+                encontrar un hogar lleno de amor.
+            </p>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {% if formulario.non_field_errors %}
+                <div class="admin-mascota-error">
+                    {{ formulario.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for campo in formulario %}
+
+                {% if campo.name == 'disponible' %}
+
+                    <div class="admin-mascota-disponible">
+                        {{ campo }}
+                        <label for="{{ campo.id_for_label }}">
+                            {{ campo.label }}
+                        </label>
+                    </div>
+
+                {% else %}
+
+                    <div class="admin-mascota-campo">
+
+                        <label for="{{ campo.id_for_label }}">
+                            {{ campo.label }}
+                        </label>
+
+                        {{ campo }}
+
+                        {% for error in campo.errors %}
+                            <div class="admin-mascota-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+            <div class="admin-mascota-botones">
+
+                <a href="{% url 'catalogo' %}"
+                   class="admin-mascota-cancelar">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="admin-mascota-guardar">
+                    🐶 Guardar mascota
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

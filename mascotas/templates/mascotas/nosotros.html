@@ -1,0 +1,481 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Nosotros | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<style>
+    .nosotros-pagina {
+        max-width: 1200px;
+        margin: 35px auto 75px;
+        padding: 0 22px;
+    }
+
+    .nosotros-pagina * {
+        box-sizing: border-box;
+    }
+
+    .nosotros-portada {
+        background: linear-gradient(135deg, #e1f7ee, #f8fdfb);
+        border: 1px solid #d6eee5;
+        border-radius: 25px;
+        padding: 65px 35px;
+        text-align: center;
+    }
+
+    .nosotros-etiqueta {
+        color: #07866e;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.6px;
+    }
+
+    .nosotros-portada h1 {
+        color: #07574d;
+        font-size: clamp(30px, 4vw, 45px);
+        margin: 18px 0;
+        line-height: 1.2;
+    }
+
+    .nosotros-portada h1 span {
+        color: #0b9b80;
+    }
+
+    .nosotros-portada p {
+        color: #60716f;
+        max-width: 670px;
+        margin: 0 auto;
+        font-size: 16px;
+        line-height: 1.8;
+    }
+
+    .nosotros-seccion {
+        margin-top: 65px;
+    }
+
+    .nosotros-titulo {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .nosotros-titulo h2 {
+        color: #07574d;
+        font-size: 30px;
+        margin: 12px 0;
+    }
+
+    .nosotros-titulo p {
+        color: #64748b;
+        line-height: 1.7;
+    }
+
+    .nosotros-historia {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 22px;
+        padding: 40px;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        align-items: center;
+        gap: 35px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.04);
+    }
+
+    .nosotros-historia h2 {
+        color: #07574d;
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .nosotros-historia p {
+        color: #60716f;
+        line-height: 1.9;
+        margin-bottom: 15px;
+    }
+
+    .nosotros-historia-ilustracion {
+        background: linear-gradient(135deg, #ddf6eb, #f5fcf9);
+        border-radius: 20px;
+        min-height: 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 90px;
+    }
+
+    .nosotros-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .nosotros-tarjeta {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.04);
+    }
+
+    .nosotros-tarjeta-icono {
+        font-size: 43px;
+        margin-bottom: 15px;
+    }
+
+    .nosotros-tarjeta h3 {
+        color: #07574d;
+        font-size: 23px;
+        margin-bottom: 15px;
+    }
+
+    .nosotros-tarjeta p {
+        color: #60716f;
+        line-height: 1.8;
+    }
+
+    .nosotros-valores {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .nosotros-valor {
+        background: #f0faf6;
+        border: 1px solid #dceee8;
+        border-radius: 18px;
+        padding: 30px 20px;
+        text-align: center;
+    }
+
+    .nosotros-valor-icono {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+
+    .nosotros-valor h3 {
+        color: #07574d;
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .nosotros-valor p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .nosotros-compromiso {
+        background: linear-gradient(135deg, #087f69, #0aa184);
+        border-radius: 23px;
+        padding: 55px 35px;
+        text-align: center;
+        color: white;
+    }
+
+    .nosotros-compromiso h2 {
+        color: white;
+        font-size: 30px;
+        margin-bottom: 20px;
+    }
+
+    .nosotros-compromiso p {
+        max-width: 680px;
+        margin: 0 auto 25px;
+        line-height: 1.8;
+        color: #f0fffa;
+    }
+
+    .nosotros-boton {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 25px;
+        background: white;
+        color: #087f69;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 800;
+        transition: 0.2s;
+    }
+
+    .nosotros-boton:hover {
+        background: #e2f7ef;
+        color: #07574d;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 950px) {
+        .nosotros-valores {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 700px) {
+        .nosotros-historia,
+        .nosotros-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nosotros-historia {
+            padding: 25px;
+        }
+
+        .nosotros-historia-ilustracion {
+            min-height: 180px;
+            font-size: 70px;
+        }
+
+        .nosotros-portada {
+            padding: 45px 20px;
+        }
+
+        .nosotros-compromiso {
+            padding: 40px 22px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .nosotros-valores {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="nosotros-pagina">
+
+    <!-- PORTADA -->
+
+    <section class="nosotros-portada">
+
+        <span class="nosotros-etiqueta">
+            🐾 CONOCE HUELLISTASDEAMOR
+        </span>
+
+        <h1>
+            Unidos por las huellitas,
+            <span>movidos por el amor</span>
+        </h1>
+
+        <p>
+            Creemos que cada mascota merece una vida
+            llena de respeto, cariño y oportunidades.
+            Nuestro propósito es promover la adopción
+            responsable y el bienestar animal.
+        </p>
+
+    </section>
+
+
+    <!-- NUESTRA HISTORIA -->
+
+    <section class="nosotros-seccion">
+
+        <div class="nosotros-historia">
+
+            <div>
+
+                <span class="nosotros-etiqueta">
+                    NUESTRA HISTORIA
+                </span>
+
+                <h2>🐾 ¿Quiénes somos?</h2>
+
+                <p>
+                    HuellistasdeAmor es un proyecto dedicado
+                    a promover la adopción responsable
+                    de mascotas y ayudar a conectar animales
+                    que necesitan un hogar con personas
+                    dispuestas a brindarles amor y cuidados.
+                </p>
+
+                <p>
+                    Buscamos crear un espacio accesible
+                    donde las personas puedan conocer
+                    mascotas disponibles, enviar solicitudes
+                    de adopción y compartir sus experiencias.
+                </p>
+
+                <p>
+                    Creemos que las pequeñas acciones
+                    pueden transformar grandes historias.
+                </p>
+
+            </div>
+
+            <div class="nosotros-historia-ilustracion">
+                🐶🐱
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MISIÓN Y VISIÓN -->
+
+    <section class="nosotros-seccion">
+
+        <div class="nosotros-titulo">
+
+            <span class="nosotros-etiqueta">
+                LO QUE NOS INSPIRA
+            </span>
+
+            <h2>💚 Nuestra misión y visión</h2>
+
+            <p>
+                Trabajamos por un futuro con más hogares
+                responsables y menos mascotas abandonadas.
+            </p>
+
+        </div>
+
+        <div class="nosotros-grid">
+
+            <article class="nosotros-tarjeta">
+
+                <div class="nosotros-tarjeta-icono">
+                    🎯
+                </div>
+
+                <h3>Nuestra misión</h3>
+
+                <p>
+                    Facilitar el encuentro entre mascotas
+                    que necesitan una familia y personas
+                    interesadas en adoptar, promoviendo
+                    la tenencia responsable, el respeto
+                    y el bienestar animal.
+                </p>
+
+            </article>
+
+            <article class="nosotros-tarjeta">
+
+                <div class="nosotros-tarjeta-icono">
+                    🌎
+                </div>
+
+                <h3>Nuestra visión</h3>
+
+                <p>
+                    Ser una plataforma que inspire
+                    a más personas a adoptar responsablemente
+                    y contribuya a construir una comunidad
+                    comprometida con el cuidado y la
+                    protección de los animales.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- VALORES -->
+
+    <section class="nosotros-seccion">
+
+        <div class="nosotros-titulo">
+
+            <span class="nosotros-etiqueta">
+                NUESTROS PRINCIPIOS
+            </span>
+
+            <h2>❤️ Valores que nos representan</h2>
+
+            <p>
+                Cada decisión que tomamos está inspirada
+                en el amor y el respeto hacia los animales.
+            </p>
+
+        </div>
+
+        <div class="nosotros-valores">
+
+            <article class="nosotros-valor">
+
+                <div class="nosotros-valor-icono">❤️</div>
+
+                <h3>Amor</h3>
+
+                <p>
+                    Tratamos a cada mascota con cariño,
+                    empatía y dedicación.
+                </p>
+
+            </article>
+
+            <article class="nosotros-valor">
+
+                <div class="nosotros-valor-icono">🤝</div>
+
+                <h3>Responsabilidad</h3>
+
+                <p>
+                    Promovemos el compromiso de cuidar
+                    a los animales durante toda su vida.
+                </p>
+
+            </article>
+
+            <article class="nosotros-valor">
+
+                <div class="nosotros-valor-icono">🛡️</div>
+
+                <h3>Respeto</h3>
+
+                <p>
+                    Defendemos el bienestar y el trato
+                    digno hacia todos los animales.
+                </p>
+
+            </article>
+
+            <article class="nosotros-valor">
+
+                <div class="nosotros-valor-icono">🌱</div>
+
+                <h3>Compromiso</h3>
+
+                <p>
+                    Impulsamos acciones que fomenten
+                    una comunidad más consciente
+                    y solidaria.
+                </p>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- COMPROMISO FINAL -->
+
+    <section class="nosotros-seccion">
+
+        <div class="nosotros-compromiso">
+
+            <h2>🐾 Cada huellita merece un hogar</h2>
+
+            <p>
+                Adoptar es mucho más que recibir una mascota.
+                Es ofrecerle seguridad, compañía y una nueva
+                oportunidad para ser feliz.
+            </p>
+
+            <a href="{% url 'catalogo' %}"
+               class="nosotros-boton">
+                🐶 Conocer mascotas disponibles
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

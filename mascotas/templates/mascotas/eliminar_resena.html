@@ -1,0 +1,132 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Eliminar reseña | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+     CONFIRMACIÓN PARA ELIMINAR RESEÑA
+====================================== -->
+
+<section class="registro-seccion">
+
+    <div class="registro-contenedor">
+
+        <!-- ENCABEZADO -->
+
+        <div class="registro-encabezado">
+
+            <div class="registro-icono">
+                🗑️
+            </div>
+
+            <h1>Eliminar reseña</h1>
+
+            <p>
+                ¿Estás seguro de que deseas eliminar
+                esta reseña de HuellistasdeAmor?
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             INFORMACIÓN DE LA RESEÑA
+        ====================================== -->
+
+        <div class="perfil-tarjeta">
+
+            <h3>{{ resena.titulo }}</h3>
+
+            <div class="estrellas">
+                ⭐ {{ resena.calificacion }}/5
+            </div>
+
+            <p>
+                {{ resena.comentario }}
+            </p>
+
+            <p>
+                <strong>Publicada por:</strong>
+                {{ resena.usuario.username }}
+            </p>
+
+            <small>
+                Publicada el
+                {{ resena.fecha|date:"d/m/Y" }}
+            </small>
+
+        </div>
+
+
+        <!-- =====================================
+             ADVERTENCIA
+        ====================================== -->
+
+        <div class="advertencia-eliminar" role="alert">
+
+            <p>
+                ⚠️ <strong>¡Atención!</strong>
+                Esta acción es permanente.
+                Una vez eliminada, no podrás
+                recuperar esta reseña.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             FORMULARIO DE CONFIRMACIÓN
+        ====================================== -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="acciones-eliminar">
+
+                <!-- CANCELAR -->
+
+                {% if user.is_staff or user.is_superuser %}
+
+                    <a
+                        href="{% url 'admin:mascotas_resena_changelist' %}"
+                        class="boton-cancelar-eliminar"
+                    >
+                        ← Cancelar
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{% url 'perfil' %}"
+                        class="boton-cancelar-eliminar"
+                    >
+                        ← Cancelar
+                    </a>
+
+                {% endif %}
+
+
+                <!-- CONFIRMAR ELIMINACIÓN -->
+
+                <button
+                    type="submit"
+                    class="boton-confirmar-eliminar"
+                >
+                    🗑️ Sí, eliminar reseña
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

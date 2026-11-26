@@ -1,0 +1,169 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Editar reseña | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+     SECCIÓN PARA EDITAR RESEÑA
+====================================== -->
+
+<section class="registro-seccion">
+
+    <div class="registro-contenedor">
+
+        <!-- =====================================
+             ENCABEZADO
+        ====================================== -->
+
+        <div class="registro-encabezado">
+
+            <div class="registro-icono">
+                ✏️
+            </div>
+
+            {% if user.is_staff or user.is_superuser %}
+
+                <h1>Administrar reseña</h1>
+
+                <p>
+                    Modifica la información de esta reseña.
+                    Puedes actualizar su título,
+                    comentario y calificación.
+                </p>
+
+            {% else %}
+
+                <h1>Editar mi reseña</h1>
+
+                <p>
+                    Actualiza tu experiencia con
+                    HuellistasdeAmor.
+
+                    Puedes modificar el título,
+                    comentario y calificación
+                    de tu reseña.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =====================================
+             FORMULARIO DE EDICIÓN
+        ====================================== -->
+
+        <form method="POST" class="registro-formulario">
+
+            {% csrf_token %}
+
+
+            <!-- ERRORES GENERALES -->
+
+            {% if formulario.non_field_errors %}
+
+                <div class="formulario-errores" role="alert">
+
+                    {% for error in formulario.non_field_errors %}
+
+                        <p>⚠️ {{ error }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- CAMPOS DEL FORMULARIO -->
+
+            {% for campo in formulario %}
+
+                <div class="grupo-formulario">
+
+                    <!-- ETIQUETA -->
+
+                    <label for="{{ campo.id_for_label }}">
+
+                        {{ campo.label }}
+
+                        {% if campo.field.required %}
+                            <span aria-hidden="true">*</span>
+                        {% endif %}
+
+                    </label>
+
+
+                    <!-- CAMPO -->
+
+                    {{ campo }}
+
+
+                    <!-- TEXTO DE AYUDA -->
+
+                    {% if campo.help_text %}
+
+                        <small class="ayuda-campo">
+                            {{ campo.help_text }}
+                        </small>
+
+                    {% endif %}
+
+
+                    <!-- ERRORES DEL CAMPO -->
+
+                    {% for error in campo.errors %}
+
+                        <p class="error-campo" role="alert">
+                            ⚠️ {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- BOTÓN PARA GUARDAR -->
+
+            <button
+                type="submit"
+                class="boton-registro"
+            >
+                💾 Guardar cambios
+            </button>
+
+        </form>
+
+
+        <!-- =====================================
+             REGRESAR
+        ====================================== -->
+
+        <div class="registro-pie">
+
+            {% if user.is_staff or user.is_superuser %}
+
+                <a href="{% url 'admin:mascotas_resena_changelist' %}">
+                    ← Volver a administración
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'perfil' %}">
+                    ← Volver a mi perfil
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

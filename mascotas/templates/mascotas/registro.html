@@ -1,0 +1,136 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Registro | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+     SECCIÓN DE REGISTRO
+====================================== -->
+
+<section class="registro-seccion">
+
+    <div class="registro-contenedor">
+
+        <!-- ENCABEZADO -->
+
+        <div class="registro-encabezado">
+
+            <div class="registro-icono">
+                🐾
+            </div>
+
+            <h1>¡Únete a HuellistasdeAmor!</h1>
+
+            <p>
+                Crea tu cuenta y comienza a formar parte
+                de nuestra comunidad de amantes de los animales.
+            </p>
+
+        </div>
+
+
+        <!-- FORMULARIO DE REGISTRO -->
+
+        <form method="POST" class="registro-formulario">
+
+            {% csrf_token %}
+
+            <!-- ERRORES GENERALES -->
+
+            {% if formulario.non_field_errors %}
+
+                <div class="formulario-errores" role="alert">
+
+                    {% for error in formulario.non_field_errors %}
+
+                        <p>{{ error }}</p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- CAMPOS DEL FORMULARIO -->
+
+            {% for campo in formulario %}
+
+                <div class="grupo-formulario">
+
+                    <label for="{{ campo.id_for_label }}">
+                        {{ campo.label }}
+                        {% if campo.field.required %}
+                            <span aria-hidden="true">*</span>
+                        {% endif %}
+                    </label>
+
+
+                    <!-- CAMPO -->
+
+                    {{ campo }}
+
+
+                    <!-- TEXTO DE AYUDA -->
+
+                    {% if campo.help_text %}
+
+                        <small class="ayuda-campo">
+                            {{ campo.help_text|safe }}
+                        </small>
+
+                    {% endif %}
+
+
+                    <!-- ERRORES DEL CAMPO -->
+
+                    {% for error in campo.errors %}
+
+                        <p class="error-campo" role="alert">
+                            ⚠️ {{ error }}
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- BOTÓN DE REGISTRO -->
+
+            <button
+                type="submit"
+                class="boton-registro"
+            >
+                Crear mi cuenta 🐾
+            </button>
+
+        </form>
+
+
+        <!-- PIE DEL REGISTRO -->
+
+        <div class="registro-pie">
+
+            <p>
+                ¿Ya tienes una cuenta?
+
+                <a href="{% url 'login' %}">
+                    Inicia sesión aquí 💚
+                </a>
+            </p>
+
+            <a href="{% url 'inicio' %}">
+                ← Volver al inicio
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

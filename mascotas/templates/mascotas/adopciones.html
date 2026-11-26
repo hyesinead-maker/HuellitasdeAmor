@@ -1,0 +1,554 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Adopciones | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<style>
+    .adopciones-pagina {
+        max-width: 1200px;
+        margin: 35px auto 75px;
+        padding: 0 22px;
+    }
+
+    .adopciones-pagina * {
+        box-sizing: border-box;
+    }
+
+    .adopciones-hero {
+        background: linear-gradient(135deg, #e2f7ef, #f8fdfb);
+        border-radius: 25px;
+        padding: 65px 35px;
+        text-align: center;
+        border: 1px solid #d8eee6;
+    }
+
+    .adopciones-etiqueta {
+        color: #09856f;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .adopciones-hero h1 {
+        color: #07574d;
+        font-size: clamp(30px, 4vw, 45px);
+        line-height: 1.2;
+        margin: 18px 0;
+    }
+
+    .adopciones-hero h1 span {
+        color: #0b9b80;
+    }
+
+    .adopciones-hero p {
+        max-width: 650px;
+        margin: 0 auto 28px;
+        color: #60716f;
+        line-height: 1.8;
+        font-size: 16px;
+    }
+
+    .adopciones-boton {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 14px 25px;
+        background: #087f69;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    .adopciones-boton:hover {
+        background: #066551;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .adopciones-seccion {
+        margin-top: 65px;
+    }
+
+    .adopciones-titulo {
+        text-align: center;
+        margin-bottom: 32px;
+    }
+
+    .adopciones-titulo h2 {
+        color: #07574d;
+        font-size: 29px;
+        margin: 10px 0;
+    }
+
+    .adopciones-titulo p {
+        color: #64748b;
+        line-height: 1.7;
+    }
+
+    .adopciones-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .adopciones-tarjeta {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 19px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.04);
+    }
+
+    .adopciones-icono {
+        font-size: 40px;
+        margin-bottom: 17px;
+    }
+
+    .adopciones-tarjeta h3 {
+        color: #155d50;
+        font-size: 18px;
+        margin-bottom: 12px;
+    }
+
+    .adopciones-tarjeta p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .adopciones-requisitos {
+        background: #f0faf6;
+        border-radius: 22px;
+        padding: 40px;
+        border: 1px solid #dceee8;
+    }
+
+    .adopciones-requisitos ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 17px;
+    }
+
+    .adopciones-requisitos li {
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        color: #345c54;
+        line-height: 1.6;
+    }
+
+    .adopciones-mascotas {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+
+    .adopciones-mascota {
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+    }
+
+    .adopciones-mascota img,
+    .adopciones-sin-foto {
+        width: 100%;
+        height: 210px;
+        object-fit: cover;
+    }
+
+    .adopciones-sin-foto {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #e3f6ef;
+        font-size: 55px;
+    }
+
+    .adopciones-mascota-contenido {
+        padding: 22px;
+    }
+
+    .adopciones-mascota h3 {
+        color: #155d50;
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+
+    .adopciones-mascota p {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .adopciones-solicitudes {
+        background: #f0faf6;
+        border-radius: 20px;
+        padding: 35px;
+        border: 1px solid #dceee8;
+    }
+
+    .adopciones-solicitud {
+        background: white;
+        padding: 20px;
+        border-radius: 13px;
+        margin-bottom: 13px;
+        border: 1px solid #e1eee8;
+    }
+
+    .adopciones-solicitud strong {
+        color: #155d50;
+    }
+
+    .adopciones-estado {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 7px 14px;
+        border-radius: 20px;
+        background: #e2f5ec;
+        color: #087f69;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .adopciones-estado.aprobada {
+        background: #d8f5e3;
+        color: #166534;
+    }
+
+    .adopciones-estado.rechazada {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .adopciones-vacio {
+        text-align: center;
+        padding: 30px;
+        background: #f7fcfa;
+        border-radius: 16px;
+        color: #64748b;
+    }
+
+    .adopciones-centrado {
+        text-align: center;
+        margin-top: 25px;
+    }
+
+    @media (max-width: 950px) {
+        .adopciones-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .adopciones-mascotas {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 600px) {
+        .adopciones-hero {
+            padding: 45px 20px;
+        }
+
+        .adopciones-grid,
+        .adopciones-mascotas,
+        .adopciones-requisitos ul {
+            grid-template-columns: 1fr;
+        }
+
+        .adopciones-requisitos,
+        .adopciones-solicitudes {
+            padding: 22px;
+        }
+
+        .adopciones-boton {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="adopciones-pagina">
+
+    <!-- PORTADA -->
+
+    <section class="adopciones-hero">
+
+        <span class="adopciones-etiqueta">
+            🐾 UN HOGAR COMIENZA CON AMOR
+        </span>
+
+        <h1>
+            Adopta un amigo,
+            <span>transforma una vida</span>
+        </h1>
+
+        <p>
+            Cada mascota merece una segunda oportunidad.
+            Descubre cómo puedes cambiar su historia
+            y encontrar a tu nuevo mejor amigo.
+        </p>
+
+        <a href="{% url 'catalogo' %}"
+           class="adopciones-boton">
+            🐶 Conocer mascotas
+        </a>
+
+    </section>
+
+
+    <!-- PROCESO DE ADOPCIÓN -->
+
+    <section class="adopciones-seccion">
+
+        <div class="adopciones-titulo">
+            <span class="adopciones-etiqueta">
+                UN PROCESO LLENO DE AMOR
+            </span>
+
+            <h2>🐾 ¿Cómo adoptar?</h2>
+
+            <p>
+                Sigue estos sencillos pasos para comenzar.
+            </p>
+        </div>
+
+        <div class="adopciones-grid">
+
+            <article class="adopciones-tarjeta">
+                <div class="adopciones-icono">🔎</div>
+                <h3>1. Encuentra</h3>
+                <p>
+                    Explora nuestro catálogo y conoce
+                    a las mascotas disponibles.
+                </p>
+            </article>
+
+            <article class="adopciones-tarjeta">
+                <div class="adopciones-icono">📝</div>
+                <h3>2. Solicita</h3>
+                <p>
+                    Inicia sesión, elige una mascota
+                    y envía tu solicitud de adopción.
+                </p>
+            </article>
+
+            <article class="adopciones-tarjeta">
+                <div class="adopciones-icono">💚</div>
+                <h3>3. Espera la revisión</h3>
+                <p>
+                    El administrador revisará tu solicitud.
+                    Podrás consultar su estado en tu perfil.
+                </p>
+            </article>
+
+            <article class="adopciones-tarjeta">
+                <div class="adopciones-icono">🏡</div>
+                <h3>4. Continúa el proceso</h3>
+                <p>
+                    Si tu solicitud es aprobada,
+                    podrás continuar con la adopción.
+                </p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- RECOMENDACIONES PARA ADOPTAR -->
+
+    <section class="adopciones-seccion">
+
+        <div class="adopciones-titulo">
+            <span class="adopciones-etiqueta">
+                ADOPCIÓN RESPONSABLE
+            </span>
+
+            <h2>❤️ Antes de adoptar</h2>
+
+            <p>
+                Considera estas recomendaciones
+                antes de darle un hogar a una mascota.
+            </p>
+        </div>
+
+        <div class="adopciones-requisitos">
+
+            <ul>
+                <li>✅ Contar con tiempo para cuidar y acompañar a tu mascota.</li>
+                <li>✅ Disponer de un espacio seguro y adecuado.</li>
+                <li>✅ Tener disposición para brindarle alimentación y atención veterinaria.</li>
+                <li>✅ Comprender que adoptar es un compromiso a largo plazo.</li>
+            </ul>
+
+        </div>
+
+    </section>
+
+
+    <!-- MASCOTAS DISPONIBLES -->
+
+    <section class="adopciones-seccion">
+
+        <div class="adopciones-titulo">
+            <span class="adopciones-etiqueta">
+                ENCUENTRA A TU COMPAÑERO
+            </span>
+
+            <h2>🐶 Mascotas que esperan un hogar</h2>
+
+            <p>
+                Conoce algunos de nuestros amigos
+                disponibles para adopción.
+            </p>
+        </div>
+
+        <div class="adopciones-mascotas">
+
+            {% for mascota in mascotas %}
+
+                <article class="adopciones-mascota">
+
+                    {% if mascota.foto %}
+
+                        <img
+                            src="{{ mascota.foto.url }}"
+                            alt="Fotografía de {{ mascota.nombre }}"
+                            loading="lazy"
+                        >
+
+                    {% else %}
+
+                        <div class="adopciones-sin-foto">
+                            🐾
+                        </div>
+
+                    {% endif %}
+
+                    <div class="adopciones-mascota-contenido">
+
+                        <h3>{{ mascota.nombre }}</h3>
+
+                        <p>
+                            {{ mascota.especie }}
+                            · {{ mascota.edad }} meses
+                        </p>
+
+                        <a href="{% url 'detalle_mascota' mascota.id %}"
+                           class="adopciones-boton">
+                            Ver detalles
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="adopciones-vacio">
+                    🐾 Actualmente no hay mascotas disponibles.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <div class="adopciones-centrado">
+            <a href="{% url 'catalogo' %}"
+               class="adopciones-boton">
+                Ver todas las mascotas
+            </a>
+        </div>
+
+    </section>
+
+
+    <!-- SOLICITUDES DEL USUARIO -->
+
+    {% if user.is_authenticated and not user.is_staff and not user.is_superuser %}
+
+        <section class="adopciones-seccion">
+
+            <div class="adopciones-titulo">
+                <span class="adopciones-etiqueta">
+                    TU HISTORIAL DE ADOPCIONES
+                </span>
+
+                <h2>📋 Mis solicitudes recientes</h2>
+
+                <p>
+                    Consulta el estado de tus solicitudes.
+                </p>
+            </div>
+
+            <div class="adopciones-solicitudes">
+
+                {% for solicitud in solicitudes %}
+
+                    <div class="adopciones-solicitud">
+
+                        <strong>
+                            🐾 {{ solicitud.mascota.nombre }}
+                        </strong>
+
+                        <p>
+                            Fecha:
+                            {{ solicitud.fecha|date:"d/m/Y" }}
+                        </p>
+
+                        {% if solicitud.estado == 'Aprobada' %}
+
+                            <span class="adopciones-estado aprobada">
+                                ✓ Aprobada
+                            </span>
+
+                        {% elif solicitud.estado == 'Rechazada' %}
+
+                            <span class="adopciones-estado rechazada">
+                                ✕ Rechazada
+                            </span>
+
+                        {% else %}
+
+                            <span class="adopciones-estado">
+                                ⏳ Pendiente
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                {% empty %}
+
+                    <div class="adopciones-vacio">
+                        Todavía no has enviado solicitudes de adopción.
+                    </div>
+
+                {% endfor %}
+
+                <div class="adopciones-centrado">
+
+                    <a href="{% url 'perfil' %}"
+                       class="adopciones-boton">
+                        📋 Ver todas mis solicitudes
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

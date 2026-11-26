@@ -1,0 +1,414 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Mis mensajes | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<style>
+    .chat-pagina {
+        max-width: 900px;
+        margin: 40px auto 75px;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .chat-encabezado {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .chat-encabezado h1 {
+        color: #07574d;
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .chat-encabezado p {
+        color: #64748b;
+        line-height: 1.7;
+    }
+
+    .chat-contenedor {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .chat-barra {
+        background: linear-gradient(135deg, #087f69, #0aa184);
+        color: white;
+        padding: 22px 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .chat-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        flex-shrink: 0;
+    }
+
+    .chat-barra h2 {
+        color: white;
+        font-size: 19px;
+        margin: 0 0 5px;
+    }
+
+    .chat-barra p {
+        color: #e5fff5;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .chat-mensajes {
+        height: 440px;
+        overflow-y: auto;
+        padding: 25px;
+        background: #f5faf8;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .chat-mensaje {
+        display: flex;
+        flex-direction: column;
+        max-width: 78%;
+    }
+
+    .chat-mensaje.usuario {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+
+    .chat-mensaje.administrador {
+        align-self: flex-start;
+        align-items: flex-start;
+    }
+
+    .chat-burbuja {
+        padding: 14px 18px;
+        border-radius: 17px;
+        line-height: 1.6;
+        font-size: 14px;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+    }
+
+    .chat-mensaje.usuario .chat-burbuja {
+        background: #087f69;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .chat-mensaje.administrador .chat-burbuja {
+        background: white;
+        color: #334b43;
+        border: 1px solid #dceee8;
+        border-bottom-left-radius: 4px;
+    }
+
+    .chat-fecha {
+        margin-top: 6px;
+        font-size: 11px;
+        color: #84948e;
+    }
+
+    .chat-vacio {
+        margin: auto;
+        text-align: center;
+        max-width: 350px;
+    }
+
+    .chat-vacio-icono {
+        font-size: 65px;
+        margin-bottom: 15px;
+    }
+
+    .chat-vacio h3 {
+        color: #07574d;
+        margin-bottom: 12px;
+    }
+
+    .chat-vacio p {
+        color: #71817d;
+        font-size: 14px;
+        line-height: 1.8;
+    }
+
+    .chat-formulario {
+        padding: 20px;
+        border-top: 1px solid #e0eee9;
+        background: white;
+    }
+
+    .chat-formulario form {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+
+    .chat-formulario textarea {
+        flex: 1;
+        min-width: 0;
+        min-height: 55px;
+        max-height: 150px;
+        padding: 15px;
+        border: 1px solid #cfe5dd;
+        border-radius: 13px;
+        resize: vertical;
+        font-family: inherit;
+        font-size: 14px;
+        color: #334b43;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .chat-formulario textarea:focus {
+        border-color: #087f69;
+        box-shadow: 0 0 0 3px rgba(8, 127, 105, 0.1);
+    }
+
+    .chat-enviar {
+        background: #087f69;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 17px 23px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+
+    .chat-enviar:hover {
+        background: #066551;
+    }
+
+    .chat-nota {
+        text-align: center;
+        margin-top: 20px;
+        color: #71817d;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+        .chat-pagina {
+            padding: 0 12px;
+            margin-top: 25px;
+        }
+
+        .chat-encabezado h1 {
+            font-size: 26px;
+        }
+
+        .chat-mensajes {
+            height: 380px;
+            padding: 15px;
+        }
+
+        .chat-mensaje {
+            max-width: 90%;
+        }
+
+        .chat-formulario form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .chat-enviar {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="chat-pagina">
+
+    <!-- ENCABEZADO -->
+
+    <div class="chat-encabezado">
+
+        <h1>💬 Mis mensajes</h1>
+
+        <p>
+            ¿Tienes preguntas sobre una mascota o el proceso
+            de adopción? Nuestro equipo está aquí para ayudarte.
+        </p>
+
+    </div>
+
+
+    <!-- CONTENEDOR DEL CHAT -->
+
+    <section class="chat-contenedor">
+
+        <!-- BARRA SUPERIOR -->
+
+        <div class="chat-barra">
+
+            <div class="chat-avatar">
+                🐾
+            </div>
+
+            <div>
+                <h2>Administración HuellistasdeAmor</h2>
+                <p>💚 Estamos aquí para ayudarte</p>
+            </div>
+
+        </div>
+
+
+        <!-- MENSAJES -->
+
+        <div class="chat-mensajes" id="chatMensajes">
+
+            {% for mensaje in conversacion %}
+
+                {% if mensaje.remitente == 'usuario' %}
+
+                    <!-- MENSAJE DEL USUARIO -->
+
+                    <div class="chat-mensaje usuario">
+
+                        <div class="chat-burbuja">{{ mensaje.contenido }}</div>
+
+                        <span class="chat-fecha">
+                            Tú · {{ mensaje.fecha|date:"d/m/Y H:i" }}
+                        </span>
+
+                    </div>
+
+                {% else %}
+
+                    <!-- RESPUESTA DEL ADMINISTRADOR -->
+
+                    <div class="chat-mensaje administrador">
+
+                        <div class="chat-burbuja">{{ mensaje.contenido }}</div>
+
+                        <span class="chat-fecha">
+                            Administración · {{ mensaje.fecha|date:"d/m/Y H:i" }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+            {% empty %}
+
+                <!-- CONVERSACIÓN VACÍA -->
+
+                <div class="chat-vacio">
+
+                    <div class="chat-vacio-icono">
+                        🐶💬
+                    </div>
+
+                    <h3>¡Comienza una conversación!</h3>
+
+                    <p>
+                        Envíanos tu primer mensaje.
+                        Puedes preguntar sobre adopciones,
+                        mascotas disponibles o cualquier
+                        duda relacionada con HuellistasdeAmor.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- FORMULARIO PARA ENVIAR MENSAJES -->
+
+        <div class="chat-formulario">
+
+            <form method="POST"
+                  action="{% url 'chat_usuario' %}"
+                  id="formularioChat">
+
+                {% csrf_token %}
+
+                <textarea
+                    name="contenido"
+                    id="contenidoMensaje"
+                    placeholder="Escribe tu mensaje aquí..."
+                    maxlength="2000"
+                    aria-label="Escribe tu mensaje"
+                    required
+                ></textarea>
+
+                <button type="submit"
+                        class="chat-enviar"
+                        id="botonEnviar">
+
+                    Enviar ➤
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOTA INFORMATIVA -->
+
+    <p class="chat-nota">
+        🔒 Esta conversación es privada entre tu cuenta
+        y la administración de HuellistasdeAmor.
+        Las respuestas aparecerán aquí cuando vuelvas
+        a consultar la conversación.
+    </p>
+
+</div>
+
+
+<!-- ==========================================
+     JAVASCRIPT DEL CHAT
+=========================================== -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contenedor = document.getElementById("chatMensajes");
+    const formulario = document.getElementById("formularioChat");
+    const botonEnviar = document.getElementById("botonEnviar");
+
+    // Mostrar automáticamente los mensajes más recientes.
+    if (contenedor) {
+        contenedor.scrollTop = contenedor.scrollHeight;
+    }
+
+    // Evitar envíos duplicados.
+    if (formulario && botonEnviar) {
+
+        formulario.addEventListener("submit", function () {
+
+            if (formulario.checkValidity()) {
+                botonEnviar.disabled = true;
+                botonEnviar.textContent = "Enviando...";
+            }
+
+        });
+
+    }
+
+});
+</script>
+
+{% endblock %}

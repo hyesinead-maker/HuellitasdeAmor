@@ -1,0 +1,402 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}Responder mensajes | HuellistasdeAmor{% endblock %}
+
+{% block content %}
+
+<style>
+    .admin-chat-pagina {
+        max-width: 900px;
+        margin: 40px auto 80px;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .admin-chat-superior {
+        margin-bottom: 25px;
+    }
+
+    .admin-chat-volver {
+        display: inline-block;
+        color: #087f69;
+        background: #e1f7ee;
+        padding: 11px 18px;
+        border-radius: 11px;
+        text-decoration: none;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .admin-chat-volver:hover {
+        background: #c9eee0;
+    }
+
+    .admin-chat-superior h1 {
+        color: #07574d;
+        font-size: 30px;
+        margin: 0 0 10px;
+    }
+
+    .admin-chat-superior p {
+        color: #64748b;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .admin-chat-contenedor {
+        background: white;
+        border: 1px solid #dceee8;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .admin-chat-barra {
+        background: linear-gradient(135deg, #087f69, #0aa184);
+        padding: 22px 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        color: white;
+    }
+
+    .admin-chat-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        flex-shrink: 0;
+    }
+
+    .admin-chat-barra h2 {
+        color: white;
+        font-size: 19px;
+        margin: 0 0 5px;
+    }
+
+    .admin-chat-barra p {
+        color: #e5fff5;
+        font-size: 13px;
+        margin: 0;
+    }
+
+    .admin-chat-mensajes {
+        height: 440px;
+        overflow-y: auto;
+        padding: 25px;
+        background: #f5faf8;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .admin-chat-mensaje {
+        display: flex;
+        flex-direction: column;
+        max-width: 78%;
+    }
+
+    .admin-chat-mensaje.usuario {
+        align-self: flex-start;
+        align-items: flex-start;
+    }
+
+    .admin-chat-mensaje.administrador {
+        align-self: flex-end;
+        align-items: flex-end;
+    }
+
+    .admin-chat-burbuja {
+        padding: 14px 18px;
+        border-radius: 17px;
+        font-size: 14px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+        white-space: pre-wrap;
+    }
+
+    .admin-chat-mensaje.usuario .admin-chat-burbuja {
+        background: white;
+        color: #334b43;
+        border: 1px solid #dceee8;
+        border-bottom-left-radius: 4px;
+    }
+
+    .admin-chat-mensaje.administrador .admin-chat-burbuja {
+        background: #087f69;
+        color: white;
+        border-bottom-right-radius: 4px;
+    }
+
+    .admin-chat-fecha {
+        color: #84948e;
+        font-size: 11px;
+        margin-top: 6px;
+    }
+
+    .admin-chat-vacio {
+        margin: auto;
+        text-align: center;
+        color: #64748b;
+        line-height: 1.7;
+    }
+
+    .admin-chat-formulario {
+        padding: 20px;
+        background: white;
+        border-top: 1px solid #e0eee9;
+    }
+
+    .admin-chat-formulario form {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+    }
+
+    .admin-chat-formulario textarea {
+        flex: 1;
+        min-width: 0;
+        min-height: 55px;
+        max-height: 150px;
+        padding: 15px;
+        border: 1px solid #cfe5dd;
+        border-radius: 13px;
+        resize: vertical;
+        font-family: inherit;
+        font-size: 14px;
+        color: #334b43;
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .admin-chat-formulario textarea:focus {
+        border-color: #087f69;
+        box-shadow: 0 0 0 3px rgba(8, 127, 105, 0.1);
+    }
+
+    .admin-chat-enviar {
+        background: #087f69;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 17px 23px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .admin-chat-enviar:hover {
+        background: #066551;
+    }
+
+    .admin-chat-nota {
+        margin-top: 18px;
+        text-align: center;
+        color: #71817d;
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+        .admin-chat-pagina {
+            padding: 0 12px;
+            margin-top: 25px;
+        }
+
+        .admin-chat-superior h1 {
+            font-size: 25px;
+        }
+
+        .admin-chat-mensajes {
+            height: 380px;
+            padding: 15px;
+        }
+
+        .admin-chat-mensaje {
+            max-width: 90%;
+        }
+
+        .admin-chat-formulario form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .admin-chat-enviar {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="admin-chat-pagina">
+
+    <!-- ENCABEZADO -->
+
+    <div class="admin-chat-superior">
+
+        <a href="{% url 'bandeja_mensajes' %}"
+           class="admin-chat-volver">
+            ← Volver a mensajes
+        </a>
+
+        <h1>💬 Responder conversación</h1>
+
+        <p>
+            Consulta los mensajes del usuario y responde
+            sus dudas sobre adopciones.
+        </p>
+
+    </div>
+
+
+    <!-- CONTENEDOR -->
+
+    <section class="admin-chat-contenedor">
+
+        <!-- INFORMACIÓN DEL USUARIO -->
+
+        <div class="admin-chat-barra">
+
+            <div class="admin-chat-avatar">
+                👤
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ usuario_chat.get_full_name|default:usuario_chat.username }}
+                </h2>
+
+                <p>
+                    @{{ usuario_chat.username }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- HISTORIAL DE MENSAJES -->
+
+        <div class="admin-chat-mensajes"
+             id="adminChatMensajes">
+
+            {% for mensaje in conversacion %}
+
+                {% if mensaje.remitente == 'usuario' %}
+
+                    <!-- MENSAJE DEL USUARIO -->
+
+                    <div class="admin-chat-mensaje usuario">
+
+                        <div class="admin-chat-burbuja">{{ mensaje.contenido }}</div>
+
+                        <span class="admin-chat-fecha">
+                            {{ usuario_chat.username }} ·
+                            {{ mensaje.fecha|date:"d/m/Y H:i" }}
+                        </span>
+
+                    </div>
+
+                {% else %}
+
+                    <!-- RESPUESTA DEL ADMINISTRADOR -->
+
+                    <div class="admin-chat-mensaje administrador">
+
+                        <div class="admin-chat-burbuja">{{ mensaje.contenido }}</div>
+
+                        <span class="admin-chat-fecha">
+                            Tú (Administración) ·
+                            {{ mensaje.fecha|date:"d/m/Y H:i" }}
+                        </span>
+
+                    </div>
+
+                {% endif %}
+
+            {% empty %}
+
+                <div class="admin-chat-vacio">
+                    🐾 No hay mensajes en esta conversación.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <!-- FORMULARIO DE RESPUESTA -->
+
+        <div class="admin-chat-formulario">
+
+            <form method="POST"
+                  action="{% url 'chat_administrador' usuario_chat.id %}"
+                  id="formularioAdminChat">
+
+                {% csrf_token %}
+
+                <textarea
+                    name="contenido"
+                    id="contenidoRespuesta"
+                    placeholder="Escribe tu respuesta al usuario..."
+                    maxlength="2000"
+                    aria-label="Escribe tu respuesta"
+                    required
+                ></textarea>
+
+                <button type="submit"
+                        class="admin-chat-enviar"
+                        id="botonResponder">
+                    Responder ➤
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <p class="admin-chat-nota">
+        🔒 Esta conversación es privada.
+        Solamente el usuario correspondiente y
+        la administración pueden consultarla.
+    </p>
+
+</div>
+
+
+<!-- JAVASCRIPT -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contenedor = document.getElementById("adminChatMensajes");
+    const formulario = document.getElementById("formularioAdminChat");
+    const boton = document.getElementById("botonResponder");
+
+    // Mostrar los mensajes más recientes.
+    if (contenedor) {
+        contenedor.scrollTop = contenedor.scrollHeight;
+    }
+
+    // Evitar respuestas duplicadas.
+    if (formulario && boton) {
+        formulario.addEventListener("submit", function () {
+            if (formulario.checkValidity()) {
+                boton.disabled = true;
+                boton.textContent = "Enviando...";
+            }
+        });
+    }
+
+});
+</script>
+
+{% endblock %}

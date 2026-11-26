@@ -1,0 +1,282 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+{{ mascota.nombre }} | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<!-- =====================================
+     REGRESAR AL CATÁLOGO
+====================================== -->
+
+<div class="regresar">
+
+    <a href="{% url 'catalogo' %}">
+        ← Volver al catálogo
+    </a>
+
+</div>
+
+
+<!-- =====================================
+     DETALLES DE LA MASCOTA
+====================================== -->
+
+<section class="detalle-contenedor">
+
+    <!-- FOTOGRAFÍA -->
+
+    <div class="detalle-imagen">
+
+        {% if mascota.foto %}
+
+            <img
+                src="{{ mascota.foto.url }}"
+                alt="Fotografía de {{ mascota.nombre }}"
+            >
+
+        {% else %}
+
+            <div class="detalle-sin-foto">
+                🐾
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- INFORMACIÓN -->
+
+    <div class="detalle-informacion">
+
+        <span class="etiqueta">
+            🐾 Conoce a tu nuevo amigo
+        </span>
+
+        <h1>{{ mascota.nombre }}</h1>
+
+
+        <!-- ESTADO DE ADOPCIÓN -->
+
+        {% if mascota.disponible %}
+
+            <span class="disponible">
+                💚 Disponible para adopción
+            </span>
+
+        {% else %}
+
+            <span class="estado-solicitud">
+                🏡 No disponible para adopción
+            </span>
+
+        {% endif %}
+
+
+        <!-- =====================================
+             DATOS DE LA MASCOTA
+        ====================================== -->
+
+        <div class="detalle-datos">
+
+            <div class="dato">
+
+                <strong>🐾 Especie</strong>
+
+                <p>{{ mascota.especie }}</p>
+
+            </div>
+
+            <div class="dato">
+
+                <strong>🏷️ Raza</strong>
+
+                <p>
+                    {{ mascota.raza|default:"No especificada" }}
+                </p>
+
+            </div>
+
+            <div class="dato">
+
+                <strong>🎂 Edad</strong>
+
+                <p>{{ mascota.edad }} meses</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             DESCRIPCIÓN
+        ====================================== -->
+
+        <div class="detalle-descripcion">
+
+            <h2>💚 Sobre {{ mascota.nombre }}</h2>
+
+            <p>{{ mascota.descripcion }}</p>
+
+        </div>
+
+
+        <!-- =====================================
+             SOLICITUD DE ADOPCIÓN
+        ====================================== -->
+
+        <div class="detalle-acciones">
+
+            {% if mascota.disponible %}
+
+                {% if user.is_authenticated %}
+
+                    {% if not user.is_staff and not user.is_superuser %}
+
+                        <!-- FORMULARIO PARA USUARIOS -->
+
+                        <div class="formulario-adopcion">
+
+                            <h2>🐾 Solicita su adopción</h2>
+
+                            <p class="texto-adopcion">
+                                Cuéntanos por qué deseas adoptar
+                                a {{ mascota.nombre }}.
+
+                                Queremos conocer un poco más
+                                sobre el hogar que le ofrecerás.
+                            </p>
+
+                            <form
+                                method="POST"
+                                action="{% url 'solicitar_adopcion' mascota.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <!-- MOTIVO DE ADOPCIÓN -->
+
+                                <div class="campo-adopcion">
+
+                                    <label for="mensaje">
+                                        💚 ¿Por qué deseas adoptar
+                                        a {{ mascota.nombre }}?
+                                    </label>
+
+                                    <textarea
+                                        id="mensaje"
+                                        name="mensaje"
+                                        rows="5"
+                                        maxlength="1000"
+                                        minlength="20"
+                                        required
+                                        placeholder="Cuéntanos por qué quieres adoptar a esta mascota, cómo la cuidarías y qué tipo de hogar le ofrecerías..."
+                                    ></textarea>
+
+                                    <small class="ayuda-adopcion">
+                                        Mínimo 20 y máximo 1000
+                                        caracteres.
+                                    </small>
+
+                                </div>
+
+                                <!-- ENVIAR SOLICITUD -->
+
+                                <button
+                                    type="submit"
+                                    class="boton-adoptar"
+                                >
+                                    🐾 Enviar solicitud de adopción
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    {% else %}
+
+                        <!-- ADMINISTRADORES -->
+
+                        <p class="nota-adopcion">
+                            Los administradores no pueden
+                            solicitar adopciones.
+                        </p>
+
+                    {% endif %}
+
+                {% else %}
+
+                    <!-- VISITANTES SIN SESIÓN -->
+
+                    <div class="formulario-adopcion">
+
+                        <h2>💚 ¿Quieres adoptarlo?</h2>
+
+                        <p class="texto-adopcion">
+                            Inicia sesión o crea una cuenta
+                            para solicitar la adopción
+                            de {{ mascota.nombre }}.
+                        </p>
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="boton-adoptar"
+                        >
+                            🔐 Inicia sesión para adoptar
+                        </a>
+
+                        <p class="nota-adopcion">
+                            ¿Todavía no tienes una cuenta?
+                            <a href="{% url 'registro' %}">
+                                Regístrate aquí
+                            </a>
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            {% else %}
+
+                <!-- MASCOTA NO DISPONIBLE -->
+
+                <div class="formulario-adopcion">
+
+                    <h2>🏡 Adopción no disponible</h2>
+
+                    <p class="texto-adopcion">
+                        Actualmente no se pueden enviar
+                        solicitudes de adopción para
+                        {{ mascota.nombre }}.
+                    </p>
+
+                    <a
+                        href="{% url 'catalogo' %}"
+                        class="boton-adoptar"
+                    >
+                        🐾 Conocer otras mascotas
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- MENSAJE FINAL -->
+
+            <p class="nota-adopcion">
+                Dale una segunda oportunidad
+                a una mascota que necesita amor. 💚
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

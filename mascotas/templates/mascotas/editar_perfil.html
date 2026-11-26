@@ -1,0 +1,319 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Editar mi perfil | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .editar-perfil-contenedor {
+        max-width: 750px;
+        margin: 45px auto 80px;
+        padding: 0 20px;
+    }
+
+    .editar-perfil-encabezado {
+        background: linear-gradient(135deg, #087f69, #16a085);
+        border-radius: 20px 20px 0 0;
+        padding: 35px;
+        color: white;
+        text-align: center;
+    }
+
+    .editar-perfil-encabezado h1 {
+        color: white;
+        font-size: 28px;
+        margin: 10px 0;
+    }
+
+    .editar-perfil-encabezado p {
+        color: #e7fff6;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .editar-perfil-icono {
+        font-size: 50px;
+        margin-bottom: 10px;
+    }
+
+    .editar-perfil-tarjeta {
+        background: white;
+        border: 1px solid #e1eee9;
+        border-radius: 0 0 20px 20px;
+        padding: 35px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    }
+
+    .editar-perfil-campo {
+        margin-bottom: 22px;
+    }
+
+    .editar-perfil-campo label {
+        display: block;
+        color: #155d50;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    .editar-perfil-campo input {
+        width: 100%;
+        padding: 13px 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #334155;
+        background: #f8fafc;
+        box-sizing: border-box;
+        transition: 0.2s;
+    }
+
+    .editar-perfil-campo input:focus {
+        outline: none;
+        border-color: #16a085;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(22,160,133,0.12);
+    }
+
+    .editar-perfil-campo input:disabled {
+        background: #e9eef0;
+        color: #64748b;
+        cursor: not-allowed;
+    }
+
+    .editar-perfil-ayuda {
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 7px;
+        line-height: 1.5;
+    }
+
+    .editar-perfil-botones {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .editar-perfil-guardar {
+        flex: 1;
+        background: #087f69;
+        color: white;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .editar-perfil-guardar:hover {
+        background: #066551;
+    }
+
+    .editar-perfil-cancelar {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e2e8f0;
+        color: #334155;
+        padding: 14px 20px;
+        border-radius: 11px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .editar-perfil-cancelar:hover {
+        background: #cbd5e1;
+        color: #1e293b;
+    }
+
+    .editar-perfil-mensaje {
+        padding: 13px 16px;
+        border-radius: 10px;
+        margin-bottom: 22px;
+        font-size: 14px;
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    .editar-perfil-mensaje.success {
+        background: #f0fdf4;
+        color: #166534;
+        border-color: #bbf7d0;
+    }
+
+    @media (max-width: 600px) {
+        .editar-perfil-encabezado {
+            padding: 28px 20px;
+        }
+
+        .editar-perfil-tarjeta {
+            padding: 25px 20px;
+        }
+
+        .editar-perfil-botones {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="editar-perfil-contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="editar-perfil-encabezado">
+
+        <div class="editar-perfil-icono">
+            👤
+        </div>
+
+        <h1>✏️ Editar mi perfil</h1>
+
+        <p>
+            Actualiza tu información personal para mantener
+            tus datos al día en HuellistasdeAmor.
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="editar-perfil-tarjeta">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="editar-perfil-mensaje{% if 'success' in message.tags %} success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="{% url 'editar_perfil' %}">
+
+            {% csrf_token %}
+
+            <!-- NOMBRE DE USUARIO -->
+
+            <div class="editar-perfil-campo">
+
+                <label for="username">
+                    👤 Nombre de usuario
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    value="{{ user.username }}"
+                    disabled
+                >
+
+                <p class="editar-perfil-ayuda">
+                    Tu nombre de usuario no se puede modificar
+                    desde esta sección.
+                </p>
+
+            </div>
+
+            <!-- NOMBRE -->
+
+            <div class="editar-perfil-campo">
+
+                <label for="first_name">
+                    📝 Nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    value="{% if request.method == 'POST' %}{{ request.POST.first_name }}{% else %}{{ user.first_name }}{% endif %}"
+                    placeholder="Ingresa tu nombre"
+                    maxlength="150"
+                    autocomplete="given-name"
+                    required
+                >
+
+            </div>
+
+            <!-- APELLIDOS -->
+
+            <div class="editar-perfil-campo">
+
+                <label for="last_name">
+                    📝 Apellidos
+                </label>
+
+                <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    value="{% if request.method == 'POST' %}{{ request.POST.last_name }}{% else %}{{ user.last_name }}{% endif %}"
+                    placeholder="Ingresa tus apellidos"
+                    maxlength="150"
+                    autocomplete="family-name"
+                    required
+                >
+
+            </div>
+
+            <!-- CORREO ELECTRÓNICO -->
+
+            <div class="editar-perfil-campo">
+
+                <label for="email">
+                    📧 Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value="{% if request.method == 'POST' %}{{ request.POST.email }}{% else %}{{ user.email }}{% endif %}"
+                    placeholder="ejemplo@correo.com"
+                    maxlength="254"
+                    autocomplete="email"
+                    required
+                >
+
+                <p class="editar-perfil-ayuda">
+                    Utiliza un correo electrónico válido
+                    que no esté registrado en otra cuenta.
+                </p>
+
+            </div>
+
+            <!-- BOTONES -->
+
+            <div class="editar-perfil-botones">
+
+                <a
+                    href="{% url 'perfil' %}"
+                    class="editar-perfil-cancelar"
+                >
+                    ✕ Cancelar
+                </a>
+
+                <button
+                    type="submit"
+                    class="editar-perfil-guardar"
+                >
+                    💾 Guardar cambios
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

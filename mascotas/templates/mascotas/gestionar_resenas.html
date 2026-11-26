@@ -1,0 +1,370 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Gestionar reseñas | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .admin-resenas {
+        max-width: 1250px;
+        margin: 35px auto 80px;
+        padding: 0 22px;
+    }
+
+    .admin-resenas-encabezado {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+    }
+
+    .admin-resenas-encabezado h1 {
+        color: #087f69;
+        font-size: 29px;
+        margin: 0 0 10px;
+    }
+
+    .admin-resenas-encabezado p {
+        color: #64748b;
+        margin: 0;
+    }
+
+    .admin-resenas-volver {
+        display: inline-block;
+        background: #087f69;
+        color: white;
+        padding: 12px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .admin-resenas-volver:hover {
+        background: #066551;
+        color: white;
+    }
+
+    /* ESTADÍSTICAS */
+
+    .admin-resenas-estadisticas {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .admin-resenas-estadistica {
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 17px;
+        padding: 24px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.035);
+    }
+
+    .admin-resenas-estadistica span {
+        font-size: 27px;
+    }
+
+    .admin-resenas-estadistica h3 {
+        color: #64748b;
+        font-size: 13px;
+        margin: 12px 0;
+    }
+
+    .admin-resenas-estadistica strong {
+        color: #155d50;
+        font-size: 31px;
+    }
+
+    /* CONTENIDO */
+
+    .admin-resenas-seccion {
+        background: white;
+        border: 1px solid #e0eee9;
+        border-radius: 18px;
+        padding: 25px;
+    }
+
+    .admin-resenas-seccion h2 {
+        color: #155d50;
+        font-size: 21px;
+        margin: 0 0 23px;
+    }
+
+    /* TARJETAS */
+
+    .admin-resenas-lista {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .admin-resena-tarjeta {
+        border: 1px solid #e1eee9;
+        border-radius: 15px;
+        padding: 23px;
+        background: #fff;
+    }
+
+    .admin-resena-usuario {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .admin-resena-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: #e1f5ed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+    }
+
+    .admin-resena-usuario strong {
+        color: #155d50;
+    }
+
+    .admin-resena-fecha {
+        display: block;
+        color: #64748b;
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .admin-resena-calificacion {
+        color: #d97706;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .admin-resena-tarjeta h3 {
+        color: #155d50;
+        font-size: 19px;
+        margin: 0 0 12px;
+    }
+
+    .admin-resena-comentario {
+        color: #475569;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    /* BOTONES */
+
+    .admin-resena-acciones {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .admin-resena-editar,
+    .admin-resena-eliminar {
+        display: inline-block;
+        padding: 10px 15px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .admin-resena-editar {
+        background: #e0f2fe;
+        color: #075985;
+    }
+
+    .admin-resena-eliminar {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .admin-resena-editar:hover {
+        background: #bae6fd;
+    }
+
+    .admin-resena-eliminar:hover {
+        background: #fecaca;
+    }
+
+    /* SIN RESEÑAS */
+
+    .admin-resenas-vacio {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 45px;
+        background: #f0faf6;
+        border-radius: 15px;
+        color: #64748b;
+    }
+
+    /* RESPONSIVO */
+
+    @media (max-width: 850px) {
+        .admin-resenas-estadisticas {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .admin-resenas-lista {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .admin-resenas-estadisticas {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-resenas {
+            padding: 0 15px;
+        }
+    }
+</style>
+
+
+<div class="admin-resenas">
+
+    <!-- ENCABEZADO -->
+
+    <div class="admin-resenas-encabezado">
+
+        <div>
+            <h1>⭐ Gestionar reseñas</h1>
+
+            <p>
+                Consulta y administra las reseñas
+                publicadas por los usuarios.
+            </p>
+        </div>
+
+        <a href="{% url 'panel_administrador' %}"
+           class="admin-resenas-volver">
+            ← Volver al panel
+        </a>
+
+    </div>
+
+
+    <!-- ESTADÍSTICAS -->
+
+    <div class="admin-resenas-estadisticas">
+
+        <div class="admin-resenas-estadistica">
+            <span>⭐</span>
+            <h3>Total de reseñas</h3>
+            <strong>{{ total_resenas }}</strong>
+        </div>
+
+        <div class="admin-resenas-estadistica">
+            <span>🌟</span>
+            <h3>5 estrellas</h3>
+            <strong>{{ resenas_5_estrellas }}</strong>
+        </div>
+
+        <div class="admin-resenas-estadistica">
+            <span>💚</span>
+            <h3>4 estrellas</h3>
+            <strong>{{ resenas_4_estrellas }}</strong>
+        </div>
+
+        <div class="admin-resenas-estadistica">
+            <span>📉</span>
+            <h3>3 estrellas o menos</h3>
+            <strong>{{ resenas_bajas }}</strong>
+        </div>
+
+    </div>
+
+
+    <!-- LISTADO DE RESEÑAS -->
+
+    <section class="admin-resenas-seccion">
+
+        <h2>📋 Reseñas publicadas</h2>
+
+        <div class="admin-resenas-lista">
+
+            {% for resena in resenas %}
+
+                <article class="admin-resena-tarjeta">
+
+                    <!-- AUTOR -->
+
+                    <div class="admin-resena-usuario">
+
+                        <div class="admin-resena-avatar">
+                            👤
+                        </div>
+
+                        <div>
+                            <strong>
+                                {{ resena.usuario.username }}
+                            </strong>
+
+                            <span class="admin-resena-fecha">
+                                {{ resena.fecha|date:"d/m/Y H:i" }}
+                            </span>
+                        </div>
+
+                    </div>
+
+
+                    <!-- CALIFICACIÓN -->
+
+                    <div class="admin-resena-calificacion">
+                        ⭐ {{ resena.calificacion }}/5
+                    </div>
+
+
+                    <!-- TÍTULO -->
+
+                    <h3>{{ resena.titulo }}</h3>
+
+
+                    <!-- COMENTARIO -->
+
+                    <div class="admin-resena-comentario">{{ resena.comentario }}</div>
+
+
+                    <!-- ACCIONES -->
+
+                    <div class="admin-resena-acciones">
+
+                        <a href="{% url 'editar_resena' resena.id %}"
+                           class="admin-resena-editar">
+                            ✏️ Editar
+                        </a>
+
+                        <a href="{% url 'eliminar_resena' resena.id %}"
+                           class="admin-resena-eliminar">
+                            🗑️ Eliminar
+                        </a>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="admin-resenas-vacio">
+                    🐾 Todavía no hay reseñas publicadas.
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

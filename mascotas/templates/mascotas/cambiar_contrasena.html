@@ -1,0 +1,318 @@
+
+{% extends 'mascotas/base.html' %}
+
+{% block title %}
+Cambiar contraseña | HuellistasdeAmor
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .contrasena-contenedor {
+        max-width: 700px;
+        margin: 45px auto 80px;
+        padding: 0 20px;
+    }
+
+    .contrasena-encabezado {
+        background: linear-gradient(135deg, #087f69, #16a085);
+        border-radius: 20px 20px 0 0;
+        padding: 35px;
+        text-align: center;
+        color: white;
+    }
+
+    .contrasena-encabezado h1 {
+        color: white;
+        font-size: 28px;
+        margin: 12px 0;
+    }
+
+    .contrasena-encabezado p {
+        color: #e7fff6;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .contrasena-icono {
+        font-size: 48px;
+    }
+
+    .contrasena-tarjeta {
+        background: white;
+        border: 1px solid #e1eee9;
+        border-radius: 0 0 20px 20px;
+        padding: 35px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+    }
+
+    .contrasena-campo {
+        margin-bottom: 24px;
+    }
+
+    .contrasena-campo label {
+        display: block;
+        color: #155d50;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    .contrasena-campo input {
+        width: 100%;
+        padding: 13px 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        font-size: 14px;
+        color: #334155;
+        background: #f8fafc;
+        box-sizing: border-box;
+        transition: 0.2s;
+    }
+
+    .contrasena-campo input:focus {
+        outline: none;
+        border-color: #16a085;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(22,160,133,0.12);
+    }
+
+    .contrasena-ayuda {
+        background: #f0fdfa;
+        border: 1px solid #ccfbf1;
+        border-radius: 12px;
+        padding: 17px;
+        margin: 20px 0 25px;
+        color: #155d50;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .contrasena-ayuda strong {
+        display: block;
+        margin-bottom: 7px;
+    }
+
+    .contrasena-ayuda ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .contrasena-error {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+        border-radius: 9px;
+        padding: 12px 15px;
+        margin-top: 8px;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .contrasena-botones {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .contrasena-guardar {
+        flex: 1;
+        background: #087f69;
+        color: white;
+        padding: 14px 20px;
+        border: none;
+        border-radius: 11px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .contrasena-guardar:hover {
+        background: #066551;
+    }
+
+    .contrasena-cancelar {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e2e8f0;
+        color: #334155;
+        padding: 14px 20px;
+        border-radius: 11px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .contrasena-cancelar:hover {
+        background: #cbd5e1;
+        color: #1e293b;
+    }
+
+    @media (max-width: 600px) {
+        .contrasena-encabezado {
+            padding: 28px 20px;
+        }
+
+        .contrasena-tarjeta {
+            padding: 25px 20px;
+        }
+
+        .contrasena-botones {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="contrasena-contenedor">
+
+    <!-- ENCABEZADO -->
+
+    <div class="contrasena-encabezado">
+
+        <div class="contrasena-icono">
+            🔒
+        </div>
+
+        <h1>Cambiar mi contraseña</h1>
+
+        <p>
+            Protege tu cuenta de HuellistasdeAmor
+            actualizando tu contraseña de forma segura.
+        </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+
+    <div class="contrasena-tarjeta">
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- ERRORES GENERALES -->
+
+            {% if formulario.non_field_errors %}
+                <div class="contrasena-error">
+                    {{ formulario.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- CONTRASEÑA ACTUAL -->
+
+            <div class="contrasena-campo">
+
+                <label for="id_old_password">
+                    🔑 Contraseña actual
+                </label>
+
+                <input
+                    type="password"
+                    id="id_old_password"
+                    name="old_password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                {% if formulario.old_password.errors %}
+                    <div class="contrasena-error">
+                        {{ formulario.old_password.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!-- NUEVA CONTRASEÑA -->
+
+            <div class="contrasena-campo">
+
+                <label for="id_new_password1">
+                    🔐 Nueva contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="id_new_password1"
+                    name="new_password1"
+                    autocomplete="new-password"
+                    required
+                >
+
+                {% if formulario.new_password1.errors %}
+                    <div class="contrasena-error">
+                        {{ formulario.new_password1.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!-- CONFIRMAR CONTRASEÑA -->
+
+            <div class="contrasena-campo">
+
+                <label for="id_new_password2">
+                    🔐 Confirmar nueva contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="id_new_password2"
+                    name="new_password2"
+                    autocomplete="new-password"
+                    required
+                >
+
+                {% if formulario.new_password2.errors %}
+                    <div class="contrasena-error">
+                        {{ formulario.new_password2.errors }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <!-- RECOMENDACIONES -->
+
+            <div class="contrasena-ayuda">
+
+                <strong>🛡️ Recomendaciones de seguridad</strong>
+
+                <ul>
+                    <li>Utiliza una contraseña larga y difícil de adivinar.</li>
+                    <li>Combina letras, números y símbolos.</li>
+                    <li>No reutilices contraseñas de otras cuentas.</li>
+                    <li>No compartas tu contraseña con nadie.</li>
+                </ul>
+
+            </div>
+
+            <!-- BOTONES -->
+
+            <div class="contrasena-botones">
+
+                <a
+                    href="{% url 'perfil' %}"
+                    class="contrasena-cancelar"
+                >
+                    ✕ Cancelar
+                </a>
+
+                <button
+                    type="submit"
+                    class="contrasena-guardar"
+                >
+                    💾 Actualizar contraseña
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
