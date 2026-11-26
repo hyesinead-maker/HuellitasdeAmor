@@ -1,4 +1,3 @@
-
 """
 Django settings for HuellistasdeAmor.
 Configuracion para desarrollo local y Render.
@@ -8,6 +7,7 @@ import os
 from pathlib import Path
 
 import dj_database_url
+import cloudinary
 
 
 # ==========================================
@@ -196,6 +196,27 @@ if (BASE_DIR / 'static').exists():
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# ==========================================
+# CONFIGURACION DE CLOUDINARY
+# ==========================================
+
+if EN_RENDER:
+
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': os.environ['CLOUDINARY_CLOUD_NAME'].strip(),
+        'API_KEY': os.environ['CLOUDINARY_API_KEY'].strip(),
+        'API_SECRET': os.environ['CLOUDINARY_API_SECRET'].strip(),
+        'SECURE': True,
+    }
+
+    cloudinary.config(
+        cloud_name=CLOUDINARY_STORAGE['CLOUD_NAME'],
+        api_key=CLOUDINARY_STORAGE['API_KEY'],
+        api_secret=CLOUDINARY_STORAGE['API_SECRET'],
+        secure=True,
+    )
 
 
 # ==========================================
