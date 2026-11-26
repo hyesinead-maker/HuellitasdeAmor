@@ -1,7 +1,8 @@
-
 Django>=6.0,<7.0
 gunicorn
 whitenoise
 dj-database-url
 psycopg[binary]
 Pillow
+cloudinary
+django-cloudinary-storage
