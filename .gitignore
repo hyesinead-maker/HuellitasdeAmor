@@ -1,0 +1,38 @@
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Archivos temporales
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Bases de datos locales
+*.sqlite3
+*.sqlite3-journal
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Archivos multimedia
+media/
+
+# Archivos estaticos recopilados
+staticfiles/
+
+# Editores
+.vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Registros
+*.log
